@@ -1,0 +1,32 @@
+.search-trip{
+    padding: 70px 8%;
+    text-align: center;
+}
+
+.search-trip h2{
+    margin-bottom: 30px;
+    color: #0A66C2;
+}
+
+.search-form{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.search-form input{
+    padding: 15px;
+    width: 220px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.search-form button{
+    background: #0A66C2;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+}

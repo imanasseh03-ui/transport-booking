@@ -1,0 +1,70 @@
+.popular-routes {
+  padding: 80px 8%;
+  background: #ffffff;
+  text-align: center;
+}
+
+.popular-routes h2 {
+  color: #0A66C2;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.popular-routes p {
+  color: #666;
+}
+
+.routes-container {
+  margin-top: 45px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.route-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  transition: .3s;
+}
+
+.route-card:hover {
+  transform: translateY(-8px);
+}
+
+.route-card h3 {
+  color: #084C99;
+  margin-bottom: 25px;
+}
+
+.route-info {
+  text-align: left;
+}
+
+.route-info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.icon {
+  color: #0A66C2;
+}
+
+.route-card button {
+  margin-top: 25px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #0A66C2;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.route-card button:hover {
+  background: #084C99;
+}
