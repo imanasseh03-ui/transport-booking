@@ -1,23 +1,9 @@
 import "./PopularRoutes.css";
+import routes from "../../data/routes"
 import { FaMapMarkerAlt, FaClock, FaMoneyBillWave } from "react-icons/fa";
 
 function PopularRoutes() {
-    const routes = [
-        {
-            from: "Abuja",
-            to: "jos",
-            duration: "4 - 5 Hours",
-            price: "#8,000",
-            departure: "First Bus 7:00 AM"
-        },
-        {
-             from: "Jos",
-            to: "Abuja",
-            duration: "4 - 5 Hours",
-            price: "#8,000",
-            departure: "First Bus 7:00 AM"
-        },
-    ];
+    
 
     return (
         <section className="popular-routes">
