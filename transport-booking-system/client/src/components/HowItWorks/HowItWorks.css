@@ -1,0 +1,51 @@
+.how-it-works{
+    padding: 90px, 8%;
+    text-align: center;
+    background: #f8fbff;
+}
+
+.how-it-works h2{
+    color: #0A66C2;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.how-it-works p{
+    color: #666;
+}
+
+.steps{
+    margin-top: 50px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.step-card{
+    width: 300px;
+    background: white;
+    padding: 35px, 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, .08);
+    transition: 0.3s;
+}
+
+.step-card:hover{
+    transform: translateY(-8px);
+}
+
+.step-icon{
+    font-size: 50px;
+    color: #0A66C2;
+    margin-bottom: 20px;
+}
+
+.step-card h3{
+    margin-bottom: 15px;
+    color: #084C99;
+}
+
+.step-card p{
+    line-height: 1.7;
+}
