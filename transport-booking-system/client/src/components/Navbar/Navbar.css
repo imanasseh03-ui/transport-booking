@@ -52,3 +52,43 @@
 .login-btn:hover{
     background: #084C99;
 }
+
+.menu-icon {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #0A66C2;
+}
+
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .login-btn {
+    display: none;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 20px;
+    padding: 25px 0;
+
+    transform: translateY(-150%);
+    transition: 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,.1);
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+  }
+}

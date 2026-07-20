@@ -1,20 +1,28 @@
 import "./Hero.css";
+import SearchCard from "../SearchCard/SearchCard";
 
 function Hero() {
     return (
         <section className="hero">
-            <div className="hero-content">
-                <h1>Travel in Comfort</h1>
+  <div className="hero-left">
+    <h1>Travel Across Nigeria in Comfort</h1>
 
-                <p>
-                    Tavel Made simple...
-                    <br />
-                    Enjoy Peace and Comfort.
-                </p>
+    <p>
+      Travel Made Simple...
+      <br />
+      Enjoy Peace and Comfort.
+    </p>
 
-                <button>Book Your Trip</button>
-            </div>
-        </section>
+    <div className="hero-buttons">
+      <button>Book Now</button>
+      <button className="secondary-btn">View Routes</button>
+    </div>
+  </div>
+
+  <div className="hero-right">
+    <SearchCard />
+  </div>
+</section>
     );
 }
 
