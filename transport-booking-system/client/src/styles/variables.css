@@ -1,0 +1,38 @@
+:root {
+  /* Brand */
+  --primary: #0A66C2;
+  --primary-dark: #084C99;
+  --secondary: #1E88E5;
+
+  /* Backgrounds */
+  --background: #F8FBFF;
+  --surface: #FFFFFF;
+
+  /* Text */
+  --text: #1F2937;
+  --text-light: #6B7280;
+
+  /* Borders */
+  --border: #E5E7EB;
+
+  /* Status */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.15);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Spacing */
+  --container-width: 1200px;
+
+  /* Navbar */
+  --navbar-height: 80px;
+}
