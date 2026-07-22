@@ -10,6 +10,7 @@ import SearchResults from "./pages/SearchResults";
 import Login from "./pages/Login";
 import Register from "./pages/Regiter";
 import ForgotPassword from "./pages/ForgotPassord";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./Auth.css"
 
 function LoginForm() {
@@ -10,6 +12,9 @@ function LoginForm() {
         password: "",
         remember: false,
     });
+
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -22,10 +27,13 @@ function LoginForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
 
-        //Later
-        //send login data to backend API
+        login({
+            fullName: "Manasseh Ibrahim",
+            email: formData.email,
+        });
+
+        navigate("/dashboard");
     };
 
     return (
