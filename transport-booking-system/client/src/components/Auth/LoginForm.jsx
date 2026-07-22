@@ -29,8 +29,9 @@ function LoginForm() {
         e.preventDefault();
 
         login({
-            fullName: "Manasseh Ibrahim",
+            fullName: "BlueWhales Customer",
             email: formData.email,
+            role: "customer",
         });
 
         navigate("/dashboard");

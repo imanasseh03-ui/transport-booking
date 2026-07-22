@@ -1,6 +1,6 @@
 import "./SearchResults.css";
 import routes from "../data/routes";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchResults() {
     const location = useLocation();
@@ -13,10 +13,13 @@ function SearchResults() {
 
     const filterRoutes = routes.filter((route) => {
         return (
-            route.from ===searchData.from &&
+            route.from === searchData.from &&
             route.to === searchData.to
         );
+
     });
+
+    const navigate = useNavigate();
     return (
         <section className="search-results">
 
@@ -27,51 +30,59 @@ function SearchResults() {
             <div className="trip-list">
                 {filterRoutes.length > 0 ? (
 
-                 filterRoutes.map((route) => (
+                    filterRoutes.map((route) => (
 
-                    <div className="trip-card" key={route.id}>
+                        <div className="trip-card" key={route.id}>
 
-                        <div>
-                            <h2>
-                                {route.from} → {route.to}
-                            </h2>
+                            <div>
+                                <h2>
+                                    {route.from} → {route.to}
+                                </h2>
 
-                            <p>
-                                Departure: {route.departure}
-                            </p>
+                                <p>
+                                    Departure: {route.departure}
+                                </p>
 
-                            <p>
-                                Duration: {route.duration}
-                            </p>
+                                <p>
+                                    Duration: {route.duration}
+                                </p>
 
-                            <p>
-                                Bus: {route.bus}
-                            </p>
+                                <p>
+                                    Bus: {route.bus}
+                                </p>
+                            </div>
+
+
+                            <div className="trip-price">
+
+                                <h3>
+                                    ₦{route.price.toLocaleString()}
+                                </h3>
+
+                                <p>
+                                    {route.availableSeats} seats available
+                                </p>
+
+                                <button
+                                    onClick={() =>
+                                        navigate("/book", {
+                                            state: {
+                                                route,
+                                            },
+                                        })
+                                    }
+                                >
+                                    Select Trip
+                                </button>
+
+                            </div>
+
                         </div>
 
-
-                        <div className="trip-price">
-
-                            <h3>
-                                ₦{route.price.toLocaleString()}
-                            </h3>
-
-                            <p>
-                                {route.availableSeats} seats available
-                            </p>
-
-                            <button>
-                                Select Trip
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                ))
-            ) : (
-                <h2>No trip available for this route.</h2>
-            )}
+                    ))
+                ) : (
+                    <h2>No trip available for this route.</h2>
+                )}
 
             </div>
 
