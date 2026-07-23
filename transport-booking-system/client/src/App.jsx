@@ -12,6 +12,7 @@ import Register from "./pages/Regiter";
 import ForgotPassword from "./pages/ForgotPassord";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import BookingSummary from "./pages/BookingSummary";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-       
+
         <Route
           path="/dashboard"
           element={
@@ -38,6 +39,11 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="/booking-summary"
+          element={<BookingSummary />}
         />
       </Routes>
     </BrowserRouter>

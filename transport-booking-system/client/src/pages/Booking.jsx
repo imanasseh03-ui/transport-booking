@@ -1,97 +1,104 @@
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Booking.css";
 
 function Booking() {
-  const location = useLocation();
-  const selectedRoute = location.state?.route;
+    const location = useLocation();
+      const navigate = useNavigate();
+      
+    const selectedRoute = location.state?.route;
 
-  const [passenger, setPassenger] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    passengers: 1,
-  });
-
-  if (!selectedRoute) {
-    return <Navigate to="/search-results" replace />;
-  }
-
-  const handleChange = (e) => {
-    setPassenger({
-      ...passenger,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    console.log({
-      route: selectedRoute,
-      passenger,
+    const [passenger, setPassenger] = useState({
+        fullName: "",
+        phone: "",
+        email: "",
+        passengers: 1,
     });
 
-    // Next step:
-    // Navigate to Booking Summary
-  };
+    if (!selectedRoute) {
+        return <Navigate to="/search-results" replace />;
+    }
 
-  return (
-    <section className="booking-page">
+    const handleChange = (e) => {
+        setPassenger({
+            ...passenger,
+            [e.target.name]: e.target.value,
+        });
+    };
 
-      <h1>Passenger Details</h1>
+    
 
-      <div className="booking-card">
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-        <h2>
-          {selectedRoute.from} → {selectedRoute.to}
-        </h2>
+        navigate("/booking-summary", {
+            state: {
+                route: selectedRoute,
+                passenger,
+            },
+        });
 
-        <p>Departure: {selectedRoute.departure}</p>
+        // Next step:
+        // Navigate to Booking Summary
+    };
 
-        <p>Bus: {selectedRoute.bus}</p>
 
-        <p>Price: ₦{selectedRoute.price.toLocaleString()}</p>
+    return (
+        <section className="booking-page">
 
-        <form onSubmit={handleSubmit}>
+            <h1>Passenger Details</h1>
 
-          <input
-            type="text"
-            name="fullName"
-            placeholder="Full Name"
-            value={passenger.fullName}
-            onChange={handleChange}
-            required
-          />
+            <div className="booking-card">
 
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number"
-            value={passenger.phone}
-            onChange={handleChange}
-            required
-          />
+                <h2>
+                    {selectedRoute.from} → {selectedRoute.to}
+                </h2>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={passenger.email}
-            onChange={handleChange}
-            required
-          />
+                <p>Departure: {selectedRoute.departure}</p>
 
-          <button type="submit">
-            Continue
-          </button>
+                <p>Bus: {selectedRoute.bus}</p>
 
-        </form>
+                <p>Price: ₦{selectedRoute.price.toLocaleString()}</p>
 
-      </div>
+                <form onSubmit={handleSubmit}>
 
-    </section>
-  );
+                    <input
+                        type="text"
+                        name="fullName"
+                        placeholder="Full Name"
+                        value={passenger.fullName}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Phone Number"
+                        value={passenger.phone}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        value={passenger.email}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <button type="submit">
+                        Continue
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+    );
 }
 
 export default Booking;
