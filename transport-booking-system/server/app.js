@@ -1,16 +1,22 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import bookingRoutes from "./routes/bookingRoutes.js";
+
+dotenv.config();
 
 const app = express();
 
-//Middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-//test route
-app.get('/', (req, res) => {
-    res.send('Transport Booking API is running...');
+// Test route
+app.get("/", (req, res) => {
+    res.send("Transport Booking API is running...");
 });
 
-module.exports = app;
+// Booking routes
+app.use("/api/bookings", bookingRoutes);
+
+export default app;
