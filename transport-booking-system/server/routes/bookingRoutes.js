@@ -1,14 +1,8 @@
 import express from "express";
+import { createBooking } from "../controllers/bookingController.js";
 
 const router = express.Router();
 
-router.post("/", (req, res) => {
-    console.log(req.body);
-
-    res.status(201).json({
-        success: true,
-        message: "Booking received successfully",
-    });
-});
+router.post("/", createBooking);
 
 export default router;

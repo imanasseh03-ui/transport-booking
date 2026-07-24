@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import "./config/db.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 
 dotenv.config();
