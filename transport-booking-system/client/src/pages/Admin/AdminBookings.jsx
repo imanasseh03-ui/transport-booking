@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getBookings } from "../../api/adminApi";
+import { getBookings, updateBookingStatus } from "../../api/adminApi";
 
 function AdminBookings() {
     const [bookings, setBookings] = useState([]);
@@ -25,6 +25,18 @@ function AdminBookings() {
         return <h2>Loading bookings...</h2>;
     }
 
+    async function handleStatusChange(id, status) {
+        try {
+            await updateBookingStatus(id, status);
+
+            //Reload the latest bookings
+            await loadBookings();
+        } catch (error) {
+            console.error(error);
+            alert("Failed to upade booking.");
+        }
+    }
+
     return (
         <section className="admin-bookings">
             <h1>BlueWhales Bookings</h1>
@@ -45,7 +57,22 @@ function AdminBookings() {
                             <td>{booking.booking_reference}</td>
                             <td>{booking.full_name}</td>
                             <td>{booking.phone}</td>
-                            <td>{booking.status}</td>
+                            <td>
+                                <select
+                                    value={booking.status}
+                                    onChange={(e) =>
+                                        handleStatusChange(
+                                            booking.id,
+                                            e.target.value
+                                        )
+                                    }
+                                >
+                                    <option value="Pending">Pending</option>
+                                    <option value="Confirmed">Confirmed</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

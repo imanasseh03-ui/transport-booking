@@ -77,3 +77,39 @@ export const getBookings = async (req, res) => {
         });
     }
 };
+
+export const updateBookingStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const result = await pool.query(
+            `
+            UPDATE bookings
+            SET status = $1
+            WHERE id = $2
+            RETURNING *;
+            `,
+            [status, id]
+        );
+
+        if(result.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Booking not found",
+            });
+        }
+
+        res.json({
+            success: true,
+            booking: result.rows[0],
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Server Error"
+        });
+    }
+} ;
