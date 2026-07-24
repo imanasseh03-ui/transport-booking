@@ -13,6 +13,8 @@ import ForgotPassword from "./pages/ForgotPassord";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import BookingSummary from "./pages/BookingSummary";
+import AdminBookings from "./pages/Admin/AdminBookings";
+
 
 function App() {
   return (
@@ -45,6 +47,12 @@ function App() {
           path="/booking-summary"
           element={<BookingSummary />}
         />
+
+        <Route
+          path="/admin/bookings"
+          element={<AdminBookings />}
+        />
+
       </Routes>
     </BrowserRouter>
   );
