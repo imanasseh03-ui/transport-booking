@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getBookings, updateBookingStatus } from "../../api/adminApi";
+import "./AdminBookings.css";
 
 function AdminBookings() {
     const [bookings, setBookings] = useState([]);
@@ -37,9 +38,48 @@ function AdminBookings() {
         }
     }
 
+    const totalBookings = bookings.length;
+
+    const pendingBookings = bookings.filter(
+        (booking) => booking.status === "Pending"
+    ).length;
+
+    const confirmedBookings = bookings.filter(
+        (booking) => booking.status === "Confirmed"
+    ).length;
+
+    const completedBookings = bookings.filter(
+        (booking) => booking.status === "Completed"
+    ).length;
+
+
     return (
         <section className="admin-bookings">
             <h1>BlueWhales Bookings</h1>
+
+            <div className="dashboard-cards">
+
+                <div className="card">
+                    <h3>Total Bookings</h3>
+                    <h2>{totalBookings}</h2>
+                </div>
+
+                <div className="card">
+                    <h3>Pending</h3>
+                    <h2>{pendingBookings}</h2>
+                </div>
+
+                <div className="card">
+                    <h3>Confirmed</h3>
+                    <h2>{confirmedBookings}</h2>
+                </div>
+
+                <div className="card">
+                    <h3>Completed</h3>
+                    <h2>{completedBookings}</h2>
+                </div>
+
+            </div>
 
             <table>
                 <thead>
