@@ -70,36 +70,44 @@ function Navbar() {
 
       <div className="auth-buttons">
 
-        {user ? (
-          <>
-            <span className="welcome">
-              Hi, {user.full_name}
-            </span>
+  {user ? (
+    <>
+      <Link 
+        to="/dashboard" 
+        className="login-btn"
+        onClick={closeMenu}
+      >
+        Dashboard
+      </Link>
 
-            <button 
-              className="login-btn"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">
-              <button className="login-btn">
-                Login
-              </button>
-            </Link>
+      <button 
+        className="register-btn"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <>
+      <Link 
+        to="/login" 
+        className="login-btn"
+        onClick={closeMenu}
+      >
+        Login
+      </Link>
 
-            <Link to="/register">
-              <button className="register-btn">
-                Register
-              </button>
-            </Link>
-          </>
-        )}
+      <Link 
+        to="/register" 
+        className="register-btn"
+        onClick={closeMenu}
+      >
+        Register
+      </Link>
+    </>
+  )}
 
-      </div>
+</div>
 
     </nav>
   );
