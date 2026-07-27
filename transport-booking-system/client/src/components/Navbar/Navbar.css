@@ -39,17 +39,22 @@
     color: #0A66C2;
 }
 
-.login-btn{
-    padding: 10px 24px;
+.login-btn, .register-btn {
+    padding: 10px 22px;
     border: none;
-    border-radius: 8px;
+    border-radius: 25px;
     background: #0A66C2;
     color: white;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
+    font-weight: 600;
 }
 
-.login-btn:hover{
+.login-btn:hover  {
+    background: #084C99;
+}
+
+.register-btn:hover  {
     background: #084C99;
 }
 
@@ -65,8 +70,14 @@
     display: block;
   }
 
-  .login-btn {
+  .login-btn, .register-btn {
     display: none;
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
   }
 
   .nav-links {

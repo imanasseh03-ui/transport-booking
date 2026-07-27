@@ -3,49 +3,32 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext();
 
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState(() => {
-
-        const savedUser = localStorage.getItem("bluewhales_user");
-
-        return savedUser
-            ? JSON.parse(savedUser)
-            : null;
-
-    });
+    const [user, setUser] = useState(
+        JSON.parse(localStorage.getItem("user")) || null
+    );
 
 
-    const login = (userData) => {
+    const login = (data) => {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-        localStorage.setItem(
-            "bluewhales_user",
-            JSON.stringify(userData)
-        );
-
-        setUser(userData);
+        setUser(data.user);
     };
 
 
     const logout = () => {
-
-        localStorage.removeItem(
-            "bluewhales_user"
-        );
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
         setUser(null);
     };
 
 
     return (
-        <AuthContext.Provider
-            value={{
-                user,
-                login,
-                logout,
-            }}
-        >
+        <AuthContext.Provider value={{ user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
-}
+};
