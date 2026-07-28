@@ -1,30 +1,42 @@
-import { useAuth } from "../context/useAuth";
+import DashboardLayout from "../components/dashboard/DashboardLayout";
 
 function Dashboard() {
-    const { user } = useAuth();
-
     return (
-        <div style={{ padding: "40px" }}>
-            <h1>
-                Welcome {user?.fullName || "Customer"} 👋
-            </h1>
-
-            <h3>Your next trip</h3>
-
-            <div
-                style={{
-                    background: "#fff",
-                    padding: "20px",
-                    borderRadius: "10px",
-                    marginTop: "20px",
-                    boxShadow: "0 5px 15px rgba(0,0,0,.1)",
-                }}
-            >
-                <p>Abuja → Jos</p>
-                <p>Departure: 7:00 AM</p>
-                <p>Seat: A12</p>
+        <DashboardLayout>
+            <div className="welcome-section">
+                <h1>Welcome back 👋</h1>
+                <p>Here is your travel overview.</p>
             </div>
-        </div>
+
+            <div className="stats-grid">
+                <div className="stat-card">
+                    <h3>Trips Taken</h3>
+                    <strong>12</strong>
+                </div>
+
+                <div className="stat-card">
+                    <h3>Bookings</h3>
+                    <strong>3</strong>
+                </div>
+
+                <div className="stat-card">
+                    <h3>Routes</h3>
+                    <strong>Abuja ↔ Jos</strong>
+                </div>
+            </div>
+
+            <div className="trip-card">
+                <h2>Upcoming Journey</h2>
+
+                <div>
+                    <h3>Abuja → Jos</h3>
+                    <p>Departure: 7:00 AM</p>
+                    <p>Seat: A12</p>
+
+                    <button>View Ticket</button>
+                </div>
+            </div>
+        </DashboardLayout>
     );
 }
 

@@ -1,104 +1,104 @@
-import { useLocation, Navigate, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import "./Booking.css";
+import DashboardLayout from "../components/dashboard/DashboardLayout";
 
-function Booking() {
-    const location = useLocation();
-      const navigate = useNavigate();
-      
-    const selectedRoute = location.state?.route;
 
-    const [passenger, setPassenger] = useState({
-        fullName: "",
-        phone: "",
-        email: "",
-        passengers: 1,
-    });
-
-    if (!selectedRoute) {
-        return <Navigate to="/search-results" replace />;
-    }
-
-    const handleChange = (e) => {
-        setPassenger({
-            ...passenger,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        navigate("/booking-summary", {
-            state: {
-                route: selectedRoute,
-                passenger,
-            },
-        });
-
-        // Next step:
-        // Navigate to Booking Summary
-    };
-
+function Dashboard() {
 
     return (
-        <section className="booking-page">
 
-            <h1>Passenger Details</h1>
+        <DashboardLayout>
 
-            <div className="booking-card">
 
-                <h2>
-                    {selectedRoute.from} → {selectedRoute.to}
-                </h2>
+            <div className="welcome-section">
 
-                <p>Departure: {selectedRoute.departure}</p>
+                <h1>
+                    Welcome back 👋
+                </h1>
 
-                <p>Bus: {selectedRoute.bus}</p>
-
-                <p>Price: ₦{selectedRoute.price.toLocaleString()}</p>
-
-                <form onSubmit={handleSubmit}>
-
-                    <input
-                        type="text"
-                        name="fullName"
-                        placeholder="Full Name"
-                        value={passenger.fullName}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <input
-                        type="tel"
-                        name="phone"
-                        placeholder="Phone Number"
-                        value={passenger.phone}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email Address"
-                        value={passenger.email}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <button type="submit">
-                        Continue
-                    </button>
-
-                </form>
+                <p>
+                    Here is your travel overview.
+                </p>
 
             </div>
 
-        </section>
+
+
+            <div className="stats-grid">
+
+
+                <div className="stat-card">
+                    <h3>
+                        Trips Taken
+                    </h3>
+
+                    <strong>
+                        12
+                    </strong>
+                </div>
+
+
+
+                <div className="stat-card">
+                    <h3>
+                        Bookings
+                    </h3>
+
+                    <strong>
+                        3
+                    </strong>
+                </div>
+
+
+
+                <div className="stat-card">
+                    <h3>
+                        Routes
+                    </h3>
+
+                    <strong>
+                        Abuja - Jos
+                    </strong>
+                </div>
+
+
+            </div>
+
+
+
+            <div className="trip-card">
+
+                <h2>
+                    Upcoming Journey
+                </h2>
+
+
+                <div>
+
+                    <h3>
+                        Abuja → Jos
+                    </h3>
+
+                    <p>
+                        Departure: 7:00 AM
+                    </p>
+
+                    <p>
+                        Seat: A12
+                    </p>
+
+                    <button>
+                        View Ticket
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+        </DashboardLayout>
+
     );
 }
 
-export default Booking;
+
+export default Dashboard;
