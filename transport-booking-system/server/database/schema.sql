@@ -23,14 +23,14 @@ CREATE TABLE trips (
     departure_date DATE NOT NULL,
     departure_time TIME NOT NULL,
     fare DECIMAL(10,2) NOT NULL,
-    available_seats INT,
     status VARCHAR(20) DEFAULT 'Scheduled'
 );
 
 CREATE TABLE seats (
     id SERIAL PRIMARY KEY,
     bus_id INT REFERENCES buses(id),
-    seat_number VARCHAR(10) NOT NULL
+    seat_number VARCHAR(10) NOT NULL, 
+    UNIQUE(bus_id, seat_number)
 );
 
 CREATE TABLE bookings (
@@ -40,7 +40,8 @@ CREATE TABLE bookings (
     seat_id INT REFERENCES seats(id),
     booking_reference VARCHAR(30) UNIQUE NOT NULL,
     booking_status VARCHAR(30) DEFAULT 'Pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(trip_id, seat_id)
 );
 
 CREATE TABLE payments (

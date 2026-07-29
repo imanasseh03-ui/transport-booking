@@ -1,25 +1,51 @@
 import "./SearchResults.css";
-import routes from "../data/routes";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchResults() {
+    
     const location = useLocation();
     const searchData = location.state || {
         from: "",
         to: "",
         date: "",
-        passangers: "1",
+        passengers: "1",
     };
 
-    const filterRoutes = routes.filter((route) => {
-        return (
-            route.from === searchData.from &&
-            route.to === searchData.to
-        );
-
-    });
-
     const navigate = useNavigate();
+
+    const [trips, setTrips] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTrips = async () => {
+
+
+            try {
+                const response = await fetch(
+                    `http://localhost:5000/api/trips?origin=${searchData.from}&destination=${searchData.to}&date=${searchData.date}`
+                );
+
+                const data = await response.json();
+                setTrips(data);
+
+            } catch (error) {
+                console.error("Failed to fetch trips:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTrips();
+    }, [searchData]);
+
+    
+
+    if (loading) {
+        return <h2>Loading available trips...</h2>;
+    }
+
+
     return (
         <section className="search-results">
 
@@ -28,19 +54,19 @@ function SearchResults() {
             </h1>
 
             <div className="trip-list">
-                {filterRoutes.length > 0 ? (
+                {trips.length > 0 ? (
 
-                    filterRoutes.map((route) => (
+                    trips.map((route) => (
 
                         <div className="trip-card" key={route.id}>
 
                             <div>
                                 <h2>
-                                    {route.from} → {route.to}
+                                    {route.origin} → {route.destination}
                                 </h2>
 
                                 <p>
-                                    Departure: {route.departure}
+                                    Departure: {route.departure_date} {route.departure_time}
                                 </p>
 
                                 <p>
@@ -48,7 +74,7 @@ function SearchResults() {
                                 </p>
 
                                 <p>
-                                    Bus: {route.bus}
+                                    Bus: {route.bus_number}
                                 </p>
                             </div>
 
@@ -56,18 +82,18 @@ function SearchResults() {
                             <div className="trip-price">
 
                                 <h3>
-                                    ₦{route.price.toLocaleString()}
+                                    ₦{Number(route.fare).toLocaleString()}
                                 </h3>
 
                                 <p>
-                                    {route.availableSeats} seats available
+                                    {route.capacity} seats available
                                 </p>
 
                                 <button
                                     onClick={() =>
                                         navigate("/book", {
                                             state: {
-                                                route,
+                                                trip: route,
                                             },
                                         })
                                     }
