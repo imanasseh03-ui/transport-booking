@@ -1,6 +1,35 @@
 import DashboardLayout from "../components/dashboard/DashboardLayout";
+import { useEffect, useState } from "react";
 
 function Dashboard() {
+
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDashboard = async () => {
+            try {
+                const response = await fetch(
+                    "http://localhost:5000/api/admin/dashboard"
+                );
+
+                const data = await response.json();
+
+                setStats(data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDashboard();
+    }, []);
+
+    if (loading) {
+        return <h2>Loading dashboard...</h2>;
+    }
+
     return (
         <DashboardLayout>
             <div className="welcome-section">
@@ -11,18 +40,28 @@ function Dashboard() {
             <div className="stats-grid">
                 <div className="stat-card">
                     <h3>Trips Taken</h3>
-                    <strong>12</strong>
+                    <strong>{stats.totalTrips}</strong>
                 </div>
 
                 <div className="stat-card">
                     <h3>Bookings</h3>
-                    <strong>3</strong>
+                    <strong>{stats.totalBookings}</strong>
                 </div>
 
                 <div className="stat-card">
                     <h3>Routes</h3>
-                    <strong>Abuja ↔ Jos</strong>
+                    <strong>{stats.totalRoutes}</strong>
                 </div>
+            </div>
+
+            <div className="stat-card">
+                <h3>Total Buses</h3>
+                <strong>{stats.totalBuses}</strong>
+            </div>
+
+            <div className="stat-card">
+                <h3>Total Revenue</h3>
+                <strong>₦{Number(stats.revenue).toLocaleString()}</strong>
             </div>
 
             <div className="trip-card">

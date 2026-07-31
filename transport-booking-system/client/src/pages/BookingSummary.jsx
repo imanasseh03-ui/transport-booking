@@ -20,7 +20,7 @@ function BookingSummary() {
         try {
 
             const response = await createBooking({
-                routeId: bookingData.route.id,
+                routeId: bookingData.trip.id,
                 fullName: bookingData.passenger.fullName,
                 phone: bookingData.passenger.phone,
                 email: bookingData.passenger.email,
@@ -71,23 +71,23 @@ function BookingSummary() {
                 <p>
                     Route:
                     {" "}
-                    {bookingData.route.from}
+                    {bookingData.trip.origin}
                     {" → "}
-                    {bookingData.route.to}
+                    {bookingData.trip.destination}
                 </p>
 
 
                 <p>
                     Bus:
                     {" "}
-                    {bookingData.route.bus}
+                    {bookingData.trip.bus_number}
                 </p>
 
 
                 <p>
                     Departure:
                     {" "}
-                    {bookingData.route.departure}
+                    {bookingData.trip.departure_date} {bookingData.trip.departure_time}
                 </p>
 
 
@@ -108,7 +108,7 @@ function BookingSummary() {
                 <h2>
                     Amount Paid:
                     {" "}
-                    ₦{bookingData.route.price.toLocaleString()}
+                   ₦{Number(bookingData.trip.fare).toLocaleString()}
                 </h2>
 
 
