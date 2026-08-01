@@ -16,14 +16,15 @@ function BookingSummary() {
         `BW-${Date.now().toString().slice(-6)}`;
 
     const handleConfirmBooking = async () => {
+        console.log("trip:", bookingData.trip);
+        console.log("Seat:", bookingData.seat);
 
         try {
 
             const response = await createBooking({
-                routeId: bookingData.trip.id,
-                fullName: bookingData.passenger.fullName,
-                phone: bookingData.passenger.phone,
-                email: bookingData.passenger.email,
+                trip_id: bookingData.trip.id,
+                seat_id: bookingData.seat.id,
+                // we'll add seat_id next
             });
 
             console.log(response);
@@ -108,7 +109,7 @@ function BookingSummary() {
                 <h2>
                     Amount Paid:
                     {" "}
-                   ₦{Number(bookingData.trip.fare).toLocaleString()}
+                    ₦{Number(bookingData.trip.fare).toLocaleString()}
                 </h2>
 
 

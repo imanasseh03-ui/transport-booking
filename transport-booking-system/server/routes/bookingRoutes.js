@@ -5,11 +5,17 @@ import {
     updateBookingStatus,
 } from "../controllers/bookingController.js";
 
+import authMiddleware from "../middleware/authMiddleware.js";
+
 
 const router = express.Router();
 
 
-router.post("/", createBooking);
+router.post(
+    "/", 
+    authMiddleware, 
+    createBooking
+);
 
 router.get("/", getBookings);
 

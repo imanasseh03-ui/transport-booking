@@ -1,54 +1,63 @@
 import pool from "../config/db.js";
 
 export const createBooking = async (req, res) => {
+
     try {
+
         const {
-            routeId,
-            fullName,
-            phone,
-            email,
+            trip_id,
+            seat_id
         } = req.body;
 
-        const bookingReference = 
-            `BW-${Date.now().toString().slice(-6)}`;
 
-            const query = `
+        const user_id = req.user.id;
+
+
+        const booking_reference =
+            "BW" + Date.now();
+
+
+
+        const result = await pool.query(
+            `
             INSERT INTO bookings
             (
-                booking_reference,
-                route_id,
-                full_name,
-                phone,
-                email
+                user_id,
+                trip_id,
+                seat_id,
+                booking_reference
             )
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING *;
-                `;
+            VALUES
+            ($1, $2, $3, $4)
+            RETURNING *
+            `,
+            [
+                user_id,
+                trip_id,
+                seat_id,
+                booking_reference
+            ]
+        );
 
-                const values = [
-                    bookingReference,
-                    routeId,
-                    fullName,
-                    phone,
-                    email
-                ];
 
-                const result = await pool.query(query, values);
+        res.status(201).json({
+            message: "Booking created successfully",
+            booking: result.rows[0]
+        });
 
-                res.status(201).json({
-                    success: true,
-                    message: "Booking created successfully",
-                    booking: result.rows[0],
-                });
 
-    } catch (error) {
+
+    } catch(error) {
+
         console.error(error);
 
+
         res.status(500).json({
-            success: false,
-            message: "server Error",
+            message: "Failed to create booking"
         });
+
     }
+
 };
 
 export const getBookings = async (req, res) => {

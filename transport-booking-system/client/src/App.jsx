@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import BookingSummary from "./pages/BookingSummary";
 import AdminBookings from "./pages/Admin/AdminBookings";
+import SeatSelection from "./pages/SeatSelection";
 
 
 function App() {
@@ -51,6 +52,11 @@ function App() {
         <Route
           path="/admin/bookings"
           element={<AdminBookings />}
+        />
+
+        <Route
+          path="/seat-selection/:tripId"
+          element={<SeatSelection />}
         />
 
       </Routes>

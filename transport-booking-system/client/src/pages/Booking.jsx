@@ -4,8 +4,8 @@ import "./Booking.css";
 
 function Booking() {
     const location = useLocation();
-      const navigate = useNavigate();
-      
+    const navigate = useNavigate();
+
     const selectedRoute = location.state?.trip;
 
     const [passenger, setPassenger] = useState({
@@ -26,12 +26,12 @@ function Booking() {
         });
     };
 
-    
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        navigate("/booking-summary", {
+        navigate(`/seat-selection/${selectedRoute.id}`, {
             state: {
                 trip: selectedRoute,
                 passenger,
