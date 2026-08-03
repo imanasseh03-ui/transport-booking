@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useAuth } from "../../context/useAuth.jsx";
+import logo from "../../assets/images/logo.png";
 
 
 function Navbar() {
@@ -24,7 +25,13 @@ function Navbar() {
     <nav className="navbar">
 
       <div className="logo">
-        <h2>BlueWhales</h2>
+        <Link to="/">
+          <img
+            src={logo}
+            alt="BlueWhales Logo"
+            className="logo-image"
+          />
+        </Link>
       </div>
 
 
@@ -70,44 +77,44 @@ function Navbar() {
 
       <div className="auth-buttons">
 
-  {user ? (
-    <>
-      <Link 
-        to="/dashboard" 
-        className="login-btn"
-        onClick={closeMenu}
-      >
-        Dashboard
-      </Link>
+        {user ? (
+          <>
+            <Link
+              to="/dashboard"
+              className="login-btn"
+              onClick={closeMenu}
+            >
+              Dashboard
+            </Link>
 
-      <button 
-        className="register-btn"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
-    </>
-  ) : (
-    <>
-      <Link 
-        to="/login" 
-        className="login-btn"
-        onClick={closeMenu}
-      >
-        Login
-      </Link>
+            <button
+              className="register-btn"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="login-btn"
+              onClick={closeMenu}
+            >
+              Login
+            </Link>
 
-      <Link 
-        to="/register" 
-        className="register-btn"
-        onClick={closeMenu}
-      >
-        Register
-      </Link>
-    </>
-  )}
+            <Link
+              to="/register"
+              className="register-btn"
+              onClick={closeMenu}
+            >
+              Register
+            </Link>
+          </>
+        )}
 
-</div>
+      </div>
 
     </nav>
   );

@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+  font-family: playfair-display, sans-serif;
+}
 *{
     margin: 0;
     padding: 0;
@@ -16,8 +21,21 @@
     z-index: 100;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 60px;
+  width: auto;
+  cursor: pointer;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
 .logo h2{
-    color: #0A66C2;
+    color: #073868;
     font-size: 30px;
     font-weight: 700;
 }
@@ -36,14 +54,20 @@
 }
 
 .nav-links a:hover{
-    color: #0A66C2;
+    color: #073868;
+}
+
+.auth-buttons{
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
 .login-btn, .register-btn {
     padding: 10px 22px;
     border: none;
     border-radius: 25px;
-    background: #0A66C2;
+    background: #073868;
     color: white;
     cursor: pointer;
     font-size: 15px;
@@ -62,7 +86,7 @@
   display: none;
   font-size: 28px;
   cursor: pointer;
-  color: #0A66C2;
+  color: #073868;
 }
 
 @media (max-width: 768px) {

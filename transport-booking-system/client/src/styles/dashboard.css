@@ -11,7 +11,7 @@
 
 .sidebar {
     width: 260px;
-    background: #0d47a1;
+    background: #073868;
     color: white;
     padding: 25px;
     display: flex;
@@ -78,7 +78,7 @@
 
     background: white;
 
-    color: #0d47a1;
+    color: #073868;
 
     border: none;
 
@@ -200,7 +200,7 @@
 
     border-radius: 50%;
 
-    background: #1565c0;
+    background: #073868;
 
     color: white;
 
@@ -260,7 +260,7 @@
 
     font-size: 30px;
 
-    color: #1565c0;
+    color: #073868;
 
 }
 
@@ -287,7 +287,7 @@
 
 .trip-card button {
 
-    background: #1565c0;
+    background: #073868;
 
     color: white;
 

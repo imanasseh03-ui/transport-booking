@@ -43,13 +43,13 @@
 }
 
 .hero-buttons button {
-  background: #0A66C2;
+  background: #073868;
   color: white;
 }
 
 .secondary-btn {
   background: white;
-  color: #0A66C2;
+  color: #073868;
 }
 
 @media (max-width: 992px) {

@@ -2,16 +2,19 @@
     padding: 90px, 8%;
     text-align: center;
     background: #f8fbff;
+     font-family: general-sans-serif;
 }
 
 .how-it-works h2{
-    color: #0A66C2;
+    font-family: poppins, sans-serif;
+    color: #073868;
     font-size: 2.2rem;
     margin-bottom: 10px;
 }
 
 .how-it-works p{
     color: #666;
+    font-family: dm-sans, sans-serif;
 }
 
 .steps{
@@ -37,13 +40,13 @@
 
 .step-icon{
     font-size: 50px;
-    color: #0A66C2;
+    color: #073868;
     margin-bottom: 20px;
 }
 
 .step-card h3{
     margin-bottom: 15px;
-    color: #084C99;
+    color: #073868;
 }
 
 .step-card p{
