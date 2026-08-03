@@ -1,9 +1,10 @@
 import pool from "../config/db.js";
 
-export const getSeatsByBus = async (req, res) => {
+
+export const getSeatsByTrip = async (req, res) => {
     try {
 
-        const { busId } = req.params;
+        const { tripId } = req.params;
 
 
         const result = await pool.query(
@@ -11,21 +12,31 @@ export const getSeatsByBus = async (req, res) => {
             SELECT
                 seats.id,
                 seats.seat_number,
+
                 CASE
-                    WHEN bookings.id IS NOT NULL THEN 'Booked'
+                    WHEN bookings.id IS NOT NULL 
+                    THEN 'Booked'
                     ELSE 'Available'
                 END AS status
 
-            FROM seats
+
+            FROM trips
+
+            JOIN seats
+            ON seats.bus_id = trips.bus_id
+
 
             LEFT JOIN bookings
-            ON seats.id = bookings.seat_id
+            ON bookings.seat_id = seats.id
+            AND bookings.trip_id = trips.id
 
-            WHERE seats.bus_id = $1
+
+            WHERE trips.id = $1
+
 
             ORDER BY seats.seat_number;
             `,
-            [busId]
+            [tripId]
         );
 
 
@@ -35,13 +46,13 @@ export const getSeatsByBus = async (req, res) => {
         });
 
 
-    } catch (error) {
+    } catch(error) {
 
         console.error(error);
 
         res.status(500).json({
-            success: false,
-            message: "Failed to fetch seats",
+            success:false,
+            message:"Failed to fetch trip seats"
         });
 
     }

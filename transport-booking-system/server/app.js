@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import tripRoutes from "./routes/tripRoutes.js";
 import seatRoutes from "./routes/seatRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import scheduleRoutes from "./routes/scheduleRoutes.js";
 
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/trips", tripRoutes);
 app.use("/api/seats", seatRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/schedules", scheduleRoutes);
 
 
 export default app;

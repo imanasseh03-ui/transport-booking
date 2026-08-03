@@ -31,6 +31,13 @@ function SearchCard() {
       return;
     }
 
+    const today = new Date().toISOString().split("T")[0];
+
+    if (searchData.date < today) {
+      alert("You cannot book a past date.");
+      return;
+    }
+
     navigate("/search-results", {
       state: searchData,
     });
@@ -65,6 +72,7 @@ function SearchCard() {
           type="date"
           name="date"
           value={searchData.date}
+          min={new Date().toISOString().split("T")[0]}
           onChange={handleChange}
         />
 

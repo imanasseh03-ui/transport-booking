@@ -1,8 +1,8 @@
 import express from "express";
-import { getSeatsByBus } from "../controllers/seatController.js";
+import { getSeatsByTrip } from "../controllers/seatController.js";
 
 const router = express.Router();
 
-router.get("/:busId", getSeatsByBus);
+router.get("/trip/:tripId", getSeatsByTrip);
 
 export default router;

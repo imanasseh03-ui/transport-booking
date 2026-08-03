@@ -18,7 +18,7 @@ function SeatSelector({ onSeatSelect }) {
             try {
 
                 const response = await fetch(
-                    `http://localhost:5000/api/seats/${tripId}`
+                    `http://localhost:5000/api/seats/trip/${tripId}`
                 );
 
                 const data = await response.json();
