@@ -5,7 +5,7 @@
 
 .search-trip h2{
     margin-bottom: 30px;
-    color: #0A66C2;
+    color: #073868;
 }
 
 .search-form{
@@ -23,7 +23,7 @@
 }
 
 .search-form button{
-    background: #0A66C2;
+    background: #073868;
     color: white;
     border: none;
     padding: 15px 30px;

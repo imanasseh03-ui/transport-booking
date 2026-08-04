@@ -1,8 +1,8 @@
 import express from "express";
-import { generateTrips } from "../controllers/scheduleController.js";
+import { generateTripsController } from "../controllers/scheduleController.js";
 
 const router = express.Router();
 
-router.post("/generate", generateTrips);
+router.post("/generate", generateTripsController);
 
 export default router;

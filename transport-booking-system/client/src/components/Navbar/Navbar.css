@@ -34,12 +34,6 @@ body {
   border-radius: 10px;
 }
 
-.logo h2{
-    color: #073868;
-    font-size: 30px;
-    font-weight: 700;
-}
-
 .nav-links{
     display: flex;
     gap: 30px;
@@ -66,7 +60,7 @@ body {
 .login-btn, .register-btn {
     padding: 10px 22px;
     border: none;
-    border-radius: 25px;
+    border-radius: 10px;
     background: #073868;
     color: white;
     cursor: pointer;

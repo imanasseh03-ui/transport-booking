@@ -1,67 +1,18 @@
 import pool from "../config/db.js";
+import { generateTrips } from "../services/tripGenerator.js";
 
-async function generateTripsForDate(date) {
 
-    // Get all active schedules
-    const schedules = await pool.query(`
-        SELECT *
-        FROM schedules
-        WHERE active = TRUE
-    `);
-
-    for (const schedule of schedules.rows) {
-
-        // Check if trip already exists
-        const exists = await pool.query(
-            `
-            SELECT id
-            FROM trips
-            WHERE schedule_id = $1
-            AND departure_date = $2
-            `,
-            [schedule.id, date]
-        );
-
-        // Create trip only if it doesn't already exist
-        if (exists.rows.length === 0) {
-
-            await pool.query(
-                `
-                INSERT INTO trips
-                (
-                    schedule_id,
-                    route_id,
-                    bus_id,
-                    departure_date,
-                    departure_time,
-                    fare,
-                    status
-                )
-                VALUES
-                ($1, $2, $3, $4, $5, $6, 'Scheduled')
-                `,
-                [
-                    schedule.id,
-                    schedule.route_id,
-                    schedule.bus_id,
-                    date,
-                    schedule.departure_time,
-                    schedule.fare
-                ]
-            );
-        }
-    }
-}
 
 export const getTrips = async (req, res) => {
     try {
 
         const { origin, destination, date } = req.query;
 
-        // Automatically generate trips for the searched date
         if (date) {
-            await generateTripsForDate(date);
+            await generateTrips(date, date);
         }
+
+        // Automatically generate trips for the searched date
 
         let query = `
             SELECT
