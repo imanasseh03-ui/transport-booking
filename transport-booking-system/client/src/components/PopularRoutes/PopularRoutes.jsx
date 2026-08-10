@@ -1,23 +1,37 @@
 import "./PopularRoutes.css";
-import routes from "../../data/routes"
+import routes from "../../data/routes";
 import { FaMapMarkerAlt, FaClock, FaMoneyBillWave } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function PopularRoutes() {
-    
+    const navigate = useNavigate();
+
+    const handleBookNow = (route) => {
+        navigate("/search-results", {
+            state: {
+                from: route.from,
+                to: route.to,
+                date: "",
+                passengers: "1",
+            },
+        });
+    };
 
     return (
         <section className="popular-routes">
             <h2>Popular Routes</h2>
-            <p>Choose from our most freqently traveled routes.</p>
+            <p>Choose from our most frequently traveled routes.</p>
 
             <div className="routes-container">
                 {routes.map((route, index) => (
                     <div className="route-card" key={index}>
+
                         <h3>
-                            {route.form} <span>→</span>
+                            {route.from} <span>→</span> {route.to}
                         </h3>
 
                         <div className="route-info">
+
                             <p>
                                 <FaClock className="icon" />
                                 {route.duration}
@@ -32,9 +46,13 @@ function PopularRoutes() {
                                 <FaMapMarkerAlt className="icon" />
                                 Departure: {route.departure}
                             </p>
+
                         </div>
 
-                        <button>Book Now</button>
+                        <button onClick={() => handleBookNow(route)}>
+                            Book Now
+                        </button>
+
                     </div>
                 ))}
             </div>

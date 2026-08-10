@@ -9,14 +9,10 @@ export const createBooking = async (req, res) => {
             seat_id
         } = req.body;
 
-
         const user_id = req.user.id;
-
 
         const booking_reference =
             "BW" + Date.now();
-
-
 
         const result = await pool.query(
             `
@@ -39,18 +35,24 @@ export const createBooking = async (req, res) => {
             ]
         );
 
-
         res.status(201).json({
             message: "Booking created successfully",
             booking: result.rows[0]
         });
 
-
-
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
 
+        // Seat is already booked for this trip
+        if (error.code === "23505") {
+
+            return res.status(409).json({
+                message:
+                    "This seat has already been booked. Please select another seat."
+            });
+
+        }
 
         res.status(500).json({
             message: "Failed to create booking"
