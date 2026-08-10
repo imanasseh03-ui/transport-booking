@@ -1,12 +1,12 @@
 .hero {
-  min-height: 90vh;
+  min-height: calc(100vh - var(--navbar-height));
   padding: 80px 8%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 60px;
 
-  background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+  background: linear-gradient(90deg, rgba(7, 56, 104, .82), rgba(7, 56, 104, .54)),
     url("../../assets/images/background.png");
 
   background-size: cover;
@@ -19,17 +19,17 @@
 }
 
 .hero-left h1 {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  font-family: poppins, sans-serif;
+  color: #fff;
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  margin-bottom: 22px;
+  letter-spacing: 0;
 }
 
 .hero-left p {
-  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.12rem;
   margin-bottom: 30px;
-  font-family: dm-sans, sans-serif;
-  line-height: 1.8;
-  font-family: dm-sans, sans-serif;
+  line-height: 1.75;
 }
 
 .hero-buttons {
@@ -40,19 +40,25 @@
 .hero-buttons button,
 .secondary-btn {
   padding: 14px 28px;
-  border-radius: 8px;
-  border: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
   cursor: pointer;
+  font-weight: 700;
 }
 
 .hero-buttons button {
-  background: #073868;
+  background: var(--primary-dark);
   color: white;
 }
 
 .secondary-btn {
-  background: white;
-  color: #073868;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--primary-dark);
+}
+
+.hero-buttons button:hover,
+.secondary-btn:hover {
+  box-shadow: var(--shadow-md);
 }
 
 @media (max-width: 992px) {

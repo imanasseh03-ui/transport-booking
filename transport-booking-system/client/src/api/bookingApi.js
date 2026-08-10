@@ -4,6 +4,8 @@ export async function createBooking(bookingData) {
 
     const token = localStorage.getItem("token");
 
+    console.log("Token:", token);
+
 
     const response = await fetch(`${API_URL}/bookings`, {
         method: "POST",

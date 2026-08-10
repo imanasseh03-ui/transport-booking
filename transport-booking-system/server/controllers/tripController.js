@@ -15,22 +15,33 @@ export const getTrips = async (req, res) => {
         // Automatically generate trips for the searched date
 
         let query = `
-            SELECT
-                trips.id,
-                routes.origin,
-                routes.destination,
-                routes.duration,
-                trips.departure_date,
-                trips.departure_time,
-                trips.fare,
-                buses.bus_number,
-                buses.capacity
-            FROM trips
-            JOIN routes
-                ON trips.route_id = routes.id
-            JOIN buses
-                ON trips.bus_id = buses.id
-            WHERE trips.status = 'Scheduled'
+                SELECT
+                    trips.id,
+                    routes.origin,
+                    routes.destination,
+                    routes.duration,
+                    trips.departure_date,
+                    trips.departure_time,
+                    trips.fare,
+                    buses.bus_number,
+                    buses.capacity,
+
+                    (
+                        buses.capacity - COUNT(bookings.id)
+                    ) AS available_seats
+
+                FROM trips
+
+                JOIN routes
+                    ON trips.route_id = routes.id
+
+                JOIN buses
+                    ON trips.bus_id = buses.id
+
+                LEFT JOIN bookings
+                    ON bookings.trip_id = trips.id
+
+                WHERE trips.status = 'Scheduled'
         `;
 
         const values = [];
@@ -51,6 +62,17 @@ export const getTrips = async (req, res) => {
         }
 
         query += `
+            GROUP BY
+                trips.id,
+                routes.origin,
+                routes.destination,
+                routes.duration,
+                trips.departure_date,
+                trips.departure_time,
+                trips.fare,
+                buses.bus_number,
+                buses.capacity
+
             ORDER BY
                 trips.departure_date,
                 trips.departure_time

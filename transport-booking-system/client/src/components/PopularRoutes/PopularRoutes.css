@@ -1,17 +1,17 @@
 .popular-routes {
-  padding: 80px 8%;
-  background: #ffffff;
+  padding: var(--section-padding);
+  background: var(--surface);
   text-align: center;
 }
 
 .popular-routes h2 {
-  color: #073868;
-  font-size: 2.2rem;
+  color: var(--primary-dark);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
   margin-bottom: 10px;
 }
 
 .popular-routes p {
-  color: #666;
+  color: var(--text-light);
 }
 
 .routes-container {
@@ -22,19 +22,21 @@
 }
 
 .route-card {
-  background: #fff;
-  border-radius: 15px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   padding: 30px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.08);
-  transition: .3s;
+  box-shadow: var(--shadow-sm);
+  transition: transform .3s ease, box-shadow .3s ease;
 }
 
 .route-card:hover {
   transform: translateY(-8px);
+  box-shadow: var(--shadow-md);
 }
 
 .route-card h3 {
-  color: #084C99;
+  color: var(--primary);
   margin-bottom: 25px;
 }
 
@@ -50,7 +52,7 @@
 }
 
 .icon {
-  color: #073868;
+  color: var(--secondary);
 }
 
 .route-card button {
@@ -58,13 +60,15 @@
   width: 100%;
   padding: 14px;
   border: none;
-  border-radius: 8px;
-  background: #073868;
+  border-radius: var(--radius-sm);
+  background: var(--primary-dark);
   color: white;
   font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
 }
 
 .route-card button:hover {
-  background: #084C99;
+  background: var(--primary);
+  box-shadow: var(--shadow-sm);
 }

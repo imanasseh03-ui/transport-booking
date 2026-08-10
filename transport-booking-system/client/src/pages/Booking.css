@@ -1,14 +1,15 @@
 .booking-page {
   max-width: 700px;
   margin: 40px auto;
-  padding: 20px;
+  padding: 24px;
 }
 
 .booking-card {
-  background: white;
+  background: var(--surface);
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .booking-card form {
@@ -20,15 +21,21 @@
 
 .booking-card input {
   padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 .booking-card button {
   padding: 14px;
-  background: #073868;
+  background: var(--primary-dark);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
   cursor: pointer;
+}
+
+.booking-card button:hover {
+  background: var(--primary);
+  box-shadow: var(--shadow-sm);
 }

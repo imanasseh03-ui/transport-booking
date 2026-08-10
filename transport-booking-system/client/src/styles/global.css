@@ -14,9 +14,11 @@ html {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   background: var(--background);
   color: var(--text);
+  line-height: 1.6;
+  letter-spacing: 0;
 }
 
 a {
@@ -27,6 +29,12 @@ a {
 button {
   cursor: pointer;
   font-family: inherit;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 img {
@@ -36,4 +44,126 @@ img {
 
 ul {
   list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--text-heading);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+p {
+  color: var(--text-light);
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(7, 85, 159, 0.12);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(7, 85, 159, 0.24);
+  outline-offset: 2px;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.booking-summary,
+.booking-success,
+.seat-container {
+  min-height: calc(100vh - var(--navbar-height));
+  padding: var(--section-padding);
+  background:
+    radial-gradient(circle at top left, rgba(15, 139, 141, 0.08), transparent 30%),
+    var(--background);
+  text-align: center;
+}
+
+.booking-summary h1,
+.booking-success h1,
+.seat-container h1 {
+  margin-bottom: 28px;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.summary-card,
+.success-card,
+.seat-container > div:not(.bus-layout) {
+  width: min(100%, 680px);
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 36px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  text-align: left;
+}
+
+.summary-card h2,
+.summary-card h3 {
+  margin-bottom: 12px;
+}
+
+.summary-card h3 {
+  color: var(--primary);
+  font-size: 1.4rem;
+}
+
+.summary-card p,
+.success-card p {
+  margin: 10px 0;
+}
+
+.summary-card hr {
+  margin: 24px 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.summary-card button,
+.booking-success button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--primary-dark);
+  color: #fff;
+  font-weight: 700;
+}
+
+.summary-card button:hover,
+.booking-success button:hover {
+  background: var(--primary);
+  box-shadow: var(--shadow-sm);
 }

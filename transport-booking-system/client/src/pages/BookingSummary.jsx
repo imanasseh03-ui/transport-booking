@@ -1,9 +1,10 @@
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { createBooking } from "../api/bookingApi";
 
 function BookingSummary() {
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const bookingData = location.state;
 
@@ -16,29 +17,21 @@ function BookingSummary() {
         `BW-${Date.now().toString().slice(-6)}`;
 
     const handleConfirmBooking = async () => {
-        console.log("trip:", bookingData.trip);
-        console.log("Seat:", bookingData.seat);
-
         try {
 
             const response = await createBooking({
                 trip_id: bookingData.trip.id,
                 seat_id: bookingData.seat.id,
-                // we'll add seat_id next
             });
 
-            console.log(response);
-
-            alert("Booking Successful!");
+            navigate("/booking-success", {
+                state: response.booking,
+            });
 
         } catch (error) {
-
             console.error(error);
-
             alert("Booking Failed");
-
         }
-
     };
 
 

@@ -1,19 +1,26 @@
 :root {
   /* Brand */
-  --primary: #0A66C2;
-  --primary-dark: #084C99;
-  --secondary: #1E88E5;
+  --primary: #07559F;
+  --primary-dark: #073868;
+  --primary-light: #EAF3FF;
+  --secondary: #0F8B8D;
+  --accent: #F59E0B;
 
   /* Backgrounds */
-  --background: #F8FBFF;
+  --background: #F6F8FB;
+  --background-soft: #EEF4FA;
   --surface: #FFFFFF;
+  --surface-muted: #F9FAFB;
 
   /* Text */
-  --text: #1F2937;
-  --text-light: #6B7280;
+  --text: #172033;
+  --text-heading: #0B1730;
+  --text-light: #64748B;
+  --text-muted: #8792A2;
 
   /* Borders */
-  --border: #E5E7EB;
+  --border: #DDE5EF;
+  --border-strong: #C7D3E1;
 
   /* Status */
   --success: #22C55E;
@@ -21,17 +28,19 @@
   --danger: #EF4444;
 
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.15);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.14);
 
   /* Radius */
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
 
   /* Spacing */
   --container-width: 1200px;
+  --section-padding: clamp(56px, 7vw, 88px) 8%;
+  --font-sans: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   /* Navbar */
   --navbar-height: 80px;

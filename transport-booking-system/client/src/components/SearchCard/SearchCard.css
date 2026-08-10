@@ -1,16 +1,17 @@
 .search-card {
     width: 100%;
-    max-width: 360px;
-    background: white;
+    max-width: 390px;
+    background: var(--surface);
     padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
 }
 
 .search-card h2 {
-    color: #073868;
+    color: var(--primary-dark);
     margin-bottom: 20px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.45rem;
 }
 
 .search-card input,
@@ -18,8 +19,8 @@
     width: 100%;
     padding: 14px;
     margin-bottom: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
     font-size: 15px;
 }
 
@@ -27,13 +28,15 @@
     width: 100%;
     padding: 14px;
     border: none;
-    border-radius: 8px;
-    background: #073868;
+    border-radius: var(--radius-sm);
+    background: var(--primary-dark);
     color: white;
     font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
 }
 
 .search-card button:hover {
-    background: #084C99;
+    background: var(--primary);
+    box-shadow: var(--shadow-sm);
 }

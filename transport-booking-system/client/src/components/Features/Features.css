@@ -1,13 +1,13 @@
 .features {
-  padding: 80px 8%;
-  background: #f8fbff;
+  padding: var(--section-padding);
+  background: var(--background);
   text-align: center;
 }
 
 .features h2 {
-  font-size: 2.2rem;
-  color: #073868;
-  margin-bottom: 50px;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: var(--primary-dark);
+  margin-bottom: 44px;
 }
 
 .features-grid {
@@ -17,32 +17,33 @@
 }
 
 .feature-card {
-  background: #ffffff;
+  background: var(--surface);
   padding: 30px 25px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feature-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-md);
 }
 
 .feature-card h3 {
-  color: #084C99;
+  color: var(--primary);
   margin-bottom: 15px;
   font-size: 1.3rem;
 }
 
 .feature-card p {
-  color: #555;
+  color: var(--text-light);
   line-height: 1.7;
   font-size: 0.95rem;
 }
 
 .feature-icon {
   font-size: 3rem;
-  color: #073868;
+  color: var(--secondary);
   margin-bottom: 20px;
 }

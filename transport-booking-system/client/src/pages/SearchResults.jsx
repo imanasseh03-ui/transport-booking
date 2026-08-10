@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchResults() {
-    
+
     const location = useLocation();
     const searchData = location.state || {
         from: "",
@@ -39,11 +39,24 @@ function SearchResults() {
         fetchTrips();
     }, [searchData]);
 
-    
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString(
+            "en-GB",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+            }
+        );
+    }
+
+
 
     if (loading) {
         return <h2>Loading available trips...</h2>;
     }
+
+
 
 
     return (
@@ -66,7 +79,10 @@ function SearchResults() {
                                 </h2>
 
                                 <p>
-                                    Departure: {route.departure_date} {route.departure_time}
+                                    Departure:{" "}
+                                    {formatDate(route.departure_date)}
+                                    {" "}
+                                    {route.departure_time}
                                 </p>
 
                                 <p>

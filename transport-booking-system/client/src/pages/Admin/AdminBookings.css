@@ -1,5 +1,6 @@
 .admin-bookings {
     padding: 2rem;
+    background: var(--background);
 }
 
 .dashboard-cards {
@@ -10,20 +11,21 @@
 }
 
 .card {
-    background: #ffffff;
-    border-radius: 12px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
     padding: 20px;
     text-align: center;
-    border-top: 5px solid #073868;
-    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+    border: 1px solid var(--border);
+    border-top: 5px solid var(--primary-dark);
+    box-shadow: var(--shadow-sm);
 }
 
 .card h3 {
-    color: #555;
+    color: var(--text-light);
     margin-bottom: 10px;
 }
 
 .card h2 {
-    color: #073868;
+    color: var(--primary-dark);
     font-size: 2rem;
 }

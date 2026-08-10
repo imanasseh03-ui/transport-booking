@@ -1,11 +1,13 @@
 .search-trip{
-    padding: 70px 8%;
+    padding: var(--section-padding);
     text-align: center;
+    background: var(--surface);
 }
 
 .search-trip h2{
     margin-bottom: 30px;
-    color: #073868;
+    color: var(--primary-dark);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
 }
 
 .search-form{
@@ -18,15 +20,21 @@
 .search-form input{
     padding: 15px;
     width: 220px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
 }
 
 .search-form button{
-    background: #073868;
+    background: var(--primary-dark);
     color: white;
     border: none;
     padding: 15px 30px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
+    font-weight: 700;
+}
+
+.search-form button:hover{
+    background: var(--primary);
+    box-shadow: var(--shadow-sm);
 }

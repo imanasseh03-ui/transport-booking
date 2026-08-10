@@ -15,6 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import BookingSummary from "./pages/BookingSummary";
 import AdminBookings from "./pages/Admin/AdminBookings";
 import SeatSelection from "./pages/SeatSelection";
+import BookingSuccess from "./pages/BookingSuccess";
 
 
 function App() {
@@ -57,6 +58,11 @@ function App() {
         <Route
           path="/seat-selection/:tripId"
           element={<SeatSelection />}
+        />
+
+        <Route
+          path="/booking-success"
+          element={<BookingSuccess />}
         />
 
       </Routes>
