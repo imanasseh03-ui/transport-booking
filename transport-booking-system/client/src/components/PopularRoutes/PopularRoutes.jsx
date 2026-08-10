@@ -1,12 +1,18 @@
 import "./PopularRoutes.css";
 import routes from "../../data/routes";
-import { FaMapMarkerAlt, FaClock, FaMoneyBillWave } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import {
+    FaMapMarkerAlt,
+    FaClock,
+    FaMoneyBillWave
+} from "react-icons/fa";
 
 function PopularRoutes() {
+
     const navigate = useNavigate();
 
     const handleBookNow = (route) => {
+
         navigate("/search-results", {
             state: {
                 from: route.from,
@@ -15,20 +21,37 @@ function PopularRoutes() {
                 passengers: "1",
             },
         });
+
     };
+
 
     return (
         <section className="popular-routes">
+
             <h2>Popular Routes</h2>
-            <p>Choose from our most frequently traveled routes.</p>
+
+            <p>
+                Choose from our most frequently traveled routes.
+            </p>
+
 
             <div className="routes-container">
-                {routes.map((route, index) => (
-                    <div className="route-card" key={index}>
+
+                {routes.map((route) => (
+
+                    <div
+                        className="route-card"
+                        key={route.id}
+                    >
 
                         <h3>
-                            {route.from} <span>→</span> {route.to}
+                            {route.from}
+
+                            <span> → </span>
+
+                            {route.to}
                         </h3>
+
 
                         <div className="route-info">
 
@@ -37,27 +60,38 @@ function PopularRoutes() {
                                 {route.duration}
                             </p>
 
+
                             <p>
                                 <FaMoneyBillWave className="icon" />
-                                {route.price}
+                                ₦{route.price.toLocaleString()}
                             </p>
+
 
                             <p>
                                 <FaMapMarkerAlt className="icon" />
-                                Departure: {route.departure}
+
+                                Departure:{" "}
+                                {route.departure}
                             </p>
 
                         </div>
 
-                        <button onClick={() => handleBookNow(route)}>
+
+                        <button
+                            onClick={() => handleBookNow(route)}
+                        >
                             Book Now
                         </button>
 
                     </div>
+
                 ))}
+
             </div>
+
         </section>
     );
 }
 
 export default PopularRoutes;
+
