@@ -25,38 +25,43 @@ function LoginForm() {
     };
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    try {
-        const response = await fetch("http://localhost:5000/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: formData.email,
-                password: formData.password,
-            }),
-        });
+        try {
+            const response = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                }),
+            });
 
-        const data = await response.json();
+            const data = await response.json();
+            console.log("LOGIN RESPONSE:", data)
 
-        if (!response.ok) {
-            alert(data.message);
-            return;
+            if (!response.ok) {
+                alert(data.message);
+                return;
+            }
+
+            // Save user and token in AuthContext
+            login(data);
+
+            // Redirect based on user role
+            if (data.user.role === "admin") {
+                navigate("/admindashboard");
+            } else {
+                navigate("/dashboard");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Unable to connect to the server.");
         }
-
-        // Save user and token in AuthContext
-        login(data);
-
-        // Redirect to dashboard
-        navigate("/dashboard");
-
-    } catch (error) {
-        console.error(error);
-        alert("Unable to connect to the server.");
-    }
-};
+    };
 
     return (
         <section className="auth-section">

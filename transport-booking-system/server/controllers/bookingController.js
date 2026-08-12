@@ -62,14 +62,41 @@ export const createBooking = async (req, res) => {
 
 };
 
+
 export const getBookings = async (req, res) => {
     try {
-
         const result = await pool.query(
             `
-            SELECT *
+            SELECT
+                bookings.id,
+                bookings.booking_reference,
+                bookings.booking_status AS status,
+                bookings.created_at,
+
+                users.full_name,
+                users.email,
+                users.phone,
+
+                bookings.trip_id,
+                trips.departure_date,
+                trips.departure_time,
+                trips.fare,
+
+                bookings.seat_id,
+                seats.seat_number
+
             FROM bookings
-            ORDER BY created_at DESC
+
+            JOIN users
+                ON bookings.user_id = users.id
+
+            JOIN trips
+                ON bookings.trip_id = trips.id
+
+            JOIN seats
+                ON bookings.seat_id = seats.id
+
+            ORDER BY bookings.created_at DESC
             `
         );
 
@@ -79,8 +106,7 @@ export const getBookings = async (req, res) => {
         });
 
     } catch (error) {
-
-        console.error(error);
+        console.error("Get bookings error:", error);
 
         res.status(500).json({
             success: false,
@@ -89,22 +115,37 @@ export const getBookings = async (req, res) => {
     }
 };
 
+
 export const updateBookingStatus = async (req, res) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
 
+        const allowedStatuses = [
+            "Pending",
+            "Confirmed",
+            "Completed",
+            "Cancelled"
+        ];
+
+        if (!allowedStatuses.includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid booking status",
+            });
+        }
+
         const result = await pool.query(
             `
             UPDATE bookings
-            SET status = $1
+            SET booking_status = $1
             WHERE id = $2
             RETURNING *;
             `,
             [status, id]
         );
 
-        if(result.rows.length === 0) {
+        if (result.rows.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Booking not found",
@@ -115,12 +156,13 @@ export const updateBookingStatus = async (req, res) => {
             success: true,
             booking: result.rows[0],
         });
+
     } catch (error) {
-        console.error(error);
+        console.error("Update booking status error:", error);
 
         res.status(500).json({
             success: false,
-            message: "Server Error"
+            message: "Server Error",
         });
     }
-} ;
+};

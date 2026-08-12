@@ -7,21 +7,43 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
         const fetchDashboard = async () => {
+
             try {
+
+                const token = localStorage.getItem("token");
+
                 const response = await fetch(
-                    "http://localhost:5000/api/admin/dashboard"
+                    "http://localhost:5000/api/admin/dashboard",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
 
                 const data = await response.json();
 
+                if (!response.ok) {
+                    throw new Error(
+                        data.message || "Failed to load dashboard"
+                    );
+                }
+
                 setStats(data);
+
             } catch (error) {
-                console.error(error);
+
+                console.error("Dashboard error:", error);
+
             } finally {
+
                 setLoading(false);
+
             }
         };
+
 
         fetchDashboard();
     }, []);

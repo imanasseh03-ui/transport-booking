@@ -16,6 +16,9 @@ import BookingSummary from "./pages/BookingSummary";
 import AdminBookings from "./pages/Admin/AdminBookings";
 import SeatSelection from "./pages/SeatSelection";
 import BookingSuccess from "./pages/BookingSuccess";
+import RouteBooking from "./pages/RouteBooking";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminRoute from "./components/AdminRoute/AdminRoute";
 
 
 function App() {
@@ -63,6 +66,29 @@ function App() {
         <Route
           path="/booking-success"
           element={<BookingSuccess />}
+        />
+
+        <Route
+          path="/route-booking"
+          element={<RouteBooking />}
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admindashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
         />
 
       </Routes>

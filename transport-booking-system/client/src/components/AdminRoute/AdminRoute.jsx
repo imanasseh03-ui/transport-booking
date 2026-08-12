@@ -1,20 +1,18 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 
-function ProtectedRoute({ children }) {
+function AdminRoute({ children }) {
     const { user } = useAuth();
 
-    // Not logged in
     if (!user) {
         return <Navigate to="/login" replace />;
     }
 
-    // Admin trying to access user dashboard
-    if (user.role === "admin") {
-        return <Navigate to="/admindashboard" replace />;
+    if (user.role !== "admin") {
+        return <Navigate to="/dashboard" replace />;
     }
 
     return children;
 }
 
-export default ProtectedRoute;
+export default AdminRoute;
