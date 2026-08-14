@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 import "./Auth.css"
 
@@ -13,7 +13,11 @@ function LoginForm() {
     });
 
     const navigate = useNavigate();
+    const location = useLocation();
     const { login } = useAuth();
+
+    const redirectPath = location.state?.from;
+    const bookingData = location.state?.bookingData;
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -53,6 +57,11 @@ function LoginForm() {
             // Redirect based on user role
             if (data.user.role === "admin") {
                 navigate("/admindashboard");
+            } else if (redirectPath) {
+                navigate(redirectPath, {
+                    replace: true,
+                    state: bookingData,
+                });
             } else {
                 navigate("/dashboard");
             }

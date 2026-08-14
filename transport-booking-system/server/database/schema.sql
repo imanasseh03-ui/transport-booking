@@ -47,7 +47,7 @@ CREATE TABLE bookings (
 CREATE TABLE payments (
     id SERIAL PRIMARY KEY,
     booking_id INT REFERENCES bookings(id),
-    amount DECIMAL(10,2)
+    amount DECIMAL(10,2),
     payment_method VARCHAR(30),
     payment_status VARCHAR(30),
     transaction_reference VARCHAR(100),

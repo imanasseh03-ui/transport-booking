@@ -1,6 +1,5 @@
-import { createContext, useState } from "react";
-
-export const AuthContext = createContext();
+import { useState } from "react";
+import { AuthContext } from "./authContextValue";
 
 
 export const AuthProvider = ({ children }) => {
@@ -15,7 +14,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
         return JSON.parse(savedUser);
-    } catch (error) {
+    } catch {
         localStorage.removeItem("user");
         return null;
     }

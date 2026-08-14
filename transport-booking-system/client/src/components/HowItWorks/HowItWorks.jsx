@@ -13,10 +13,10 @@ function HowItWorks() {
 
             <div className="steps">
 
-                <div className="step-csrd">
+                <div className="step-card">
                     <FaSearch className="step-icon" />
                     <h3>Search</h3>
-                    <p>Select your route and preferred trvel date.</p>
+                    <p>Select your route and preferred travel date.</p>
                 </div>
 
                 <div className="step-card">
@@ -25,10 +25,10 @@ function HowItWorks() {
                     <p>Choose your seat and confirm your booking.</p>
                 </div>
 
-                <div className="srep-card">
+                <div className="step-card">
                     <FaBus className="step-icon" />
                     <h3>Travel</h3>
-                    <p>Arrive at te terminal and enjoy a safe journey.</p>
+                    <p>Arrive at the terminal and enjoy a safe journey.</p>
                 </div>
             </div>
         </section>

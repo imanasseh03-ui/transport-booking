@@ -1,10 +1,11 @@
-import { useLocation, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { createBooking } from "../api/bookingApi";
+import { useAuth } from "../context/useAuth";
 
 function BookingSummary() {
-
     const location = useLocation();
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     const bookingData = location.state;
 
@@ -12,13 +13,24 @@ function BookingSummary() {
         return <Navigate to="/" replace />;
     }
 
+    if (!user) {
+        return (
+            <Navigate
+                to="/login"
+                replace
+                state={{
+                    from: location.pathname,
+                    bookingData,
+                }}
+            />
+        );
+    }
 
     const bookingReference =
-        `BW-${Date.now().toString().slice(-6)}`;
+        bookingData.bookingReference || "Generated after confirmation";
 
     const handleConfirmBooking = async () => {
         try {
-
             const response = await createBooking({
                 trip_id: bookingData.trip.id,
                 seat_id: bookingData.seat.id,
@@ -27,100 +39,54 @@ function BookingSummary() {
             navigate("/booking-success", {
                 state: response.booking,
             });
-
         } catch (error) {
             console.error(error);
             alert("Booking Failed");
         }
     };
 
-
     return (
         <section className="booking-summary">
-
-            <h1>
-                Booking Confirmation
-            </h1>
-
+            <h1>Booking Confirmation</h1>
 
             <div className="summary-card">
-
-                <h2>
-                    Booking Reference:
-                </h2>
-
-                <h3>
-                    {bookingReference}
-                </h3>
-
+                <h2>Booking Reference:</h2>
+                <h3>{bookingReference}</h3>
 
                 <hr />
 
-
-                <h2>
-                    Trip Details
-                </h2>
-
+                <h2>Trip Details</h2>
 
                 <p>
-                    Route:
-                    {" "}
-                    {bookingData.trip.origin}
-                    {" → "}
+                    Route: {bookingData.trip.origin}
+                    {" -> "}
                     {bookingData.trip.destination}
                 </p>
 
+                <p>Bus: {bookingData.trip.bus_number}</p>
 
                 <p>
-                    Bus:
-                    {" "}
-                    {bookingData.trip.bus_number}
+                    Departure: {bookingData.trip.departure_date}{" "}
+                    {bookingData.trip.departure_time}
                 </p>
 
+                <p>Passenger: {bookingData.passenger.fullName}</p>
 
-                <p>
-                    Departure:
-                    {" "}
-                    {bookingData.trip.departure_date} {bookingData.trip.departure_time}
-                </p>
-
-
-                <p>
-                    Passenger:
-                    {" "}
-                    {bookingData.passenger.fullName}
-                </p>
-
-
-                <p>
-                    Phone:
-                    {" "}
-                    {bookingData.passenger.phone}
-                </p>
-
+                <p>Phone: {bookingData.passenger.phone}</p>
 
                 <h2>
-                    Amount Paid:
-                    {" "}
-                    ₦{Number(bookingData.trip.fare).toLocaleString()}
+                    Amount Paid: NGN{" "}
+                    {Number(bookingData.trip.fare).toLocaleString()}
                 </h2>
 
-
-                <p>
-                    Status:
-                    Pending Confirmation
-                </p>
+                <p>Status: Pending Confirmation</p>
 
                 <button onClick={handleConfirmBooking}>
                     Confirm Booking
                 </button>
-
-
             </div>
-
         </section>
     );
 }
-
 
 export default BookingSummary;

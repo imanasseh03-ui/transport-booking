@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getBookings, updateBookingStatus } from "../../api/adminApi";
 import "./AdminBookings.css";
 
@@ -6,15 +6,14 @@ function AdminBookings() {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        loadBookings();
-    }, []);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState("All");
 
-    async function loadBookings() {
+    const loadBookings = useCallback(async () => {
         try {
             const data = await getBookings();
 
-            setBookings(data.bookings);
+            setBookings(data.bookings || []);
         } catch (error) {
             console.error("Failed to load bookings:", error);
 
@@ -22,13 +21,17 @@ function AdminBookings() {
         } finally {
             setLoading(false);
         }
-    }
+    }, []);
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        loadBookings();
+    }, [loadBookings]);
 
     async function handleStatusChange(id, status) {
         try {
             await updateBookingStatus(id, status);
 
-            // Reload the latest bookings
             await loadBookings();
         } catch (error) {
             console.error("Failed to update booking:", error);
@@ -55,18 +58,47 @@ function AdminBookings() {
         (booking) => booking.status === "Completed"
     ).length;
 
+    const filteredBookings = bookings.filter((booking) => {
+
+        const search = searchTerm.toLowerCase();
+
+        const matchesSearch =
+            booking.booking_reference
+                ?.toLowerCase()
+                .includes(search) ||
+
+            booking.full_name
+                ?.toLowerCase()
+                .includes(search) ||
+
+            booking.phone
+                ?.toLowerCase()
+                .includes(search);
+
+        const matchesStatus =
+            statusFilter === "All" ||
+            booking.status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+    });
+
     return (
         <section className="admin-bookings">
 
+            {/* Header */}
+
             <div className="admin-bookings-header">
+
                 <h1>BlueWhales Bookings</h1>
 
                 <p>
                     Manage passenger bookings and booking statuses.
                 </p>
+
             </div>
 
-            {/* Booking Statistics */}
+
+            {/* Statistics */}
 
             <div className="dashboard-cards">
 
@@ -92,6 +124,50 @@ function AdminBookings() {
 
             </div>
 
+
+            {/* Search and Filter */}
+
+            <div className="booking-filters">
+
+                <input
+                    type="text"
+                    placeholder="Search by reference, name or phone..."
+                    value={searchTerm}
+                    onChange={(e) =>
+                        setSearchTerm(e.target.value)
+                    }
+                />
+
+                <select
+                    value={statusFilter}
+                    onChange={(e) =>
+                        setStatusFilter(e.target.value)
+                    }
+                >
+                    <option value="All">
+                        All Statuses
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="Confirmed">
+                        Confirmed
+                    </option>
+
+                    <option value="Completed">
+                        Completed
+                    </option>
+
+                    <option value="Cancelled">
+                        Cancelled
+                    </option>
+                </select>
+
+            </div>
+
+
             {/* Bookings Table */}
 
             <div className="bookings-table-container">
@@ -99,6 +175,7 @@ function AdminBookings() {
                 <table>
 
                     <thead>
+
                         <tr>
                             <th>Reference</th>
                             <th>Passenger</th>
@@ -107,11 +184,13 @@ function AdminBookings() {
                             <th>Seat</th>
                             <th>Status</th>
                         </tr>
+
                     </thead>
+
 
                     <tbody>
 
-                        {bookings.length === 0 ? (
+                        {filteredBookings.length === 0 ? (
 
                             <tr>
                                 <td colSpan="6">
@@ -121,7 +200,7 @@ function AdminBookings() {
 
                         ) : (
 
-                            bookings.map((booking) => (
+                            filteredBookings.map((booking) => (
 
                                 <tr key={booking.id}>
 
@@ -138,7 +217,9 @@ function AdminBookings() {
                                     </td>
 
                                     <td>
-                                        {booking.departure_date} at {booking.departure_time}
+                                        {booking.departure_date}
+                                        {" at "}
+                                        {booking.departure_time}
                                     </td>
 
                                     <td>
@@ -157,6 +238,7 @@ function AdminBookings() {
                                                 )
                                             }
                                         >
+
                                             <option value="Pending">
                                                 Pending
                                             </option>
@@ -172,6 +254,7 @@ function AdminBookings() {
                                             <option value="Cancelled">
                                                 Cancelled
                                             </option>
+
                                         </select>
 
                                     </td>

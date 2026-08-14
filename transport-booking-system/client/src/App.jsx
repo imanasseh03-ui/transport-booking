@@ -74,15 +74,6 @@ function App() {
         />
 
         <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
           path="/admindashboard"
           element={
             <AdminRoute>
