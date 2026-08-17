@@ -19,6 +19,7 @@ import BookingSuccess from "./pages/BookingSuccess";
 import RouteBooking from "./pages/RouteBooking";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
+import AdminTrips from "./pages/Admin/AdminTrips";
 
 
 function App() {
@@ -81,6 +82,8 @@ function App() {
             </AdminRoute>
           }
         />
+
+        <Route path="/admin/trips" element={<AdminTrips />} />
 
       </Routes>
     </BrowserRouter>

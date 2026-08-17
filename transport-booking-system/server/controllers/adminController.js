@@ -39,3 +39,82 @@ export const getDashboardStats = async (req, res) => {
     });
 }
 };
+
+export const getAllTrips = async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT
+                trips.id,
+                routes.origin,
+                routes.destination,
+                buses.bus_number,
+                trips.departure_date,
+                trips.departure_time,
+                trips.fare,
+                trips.status
+
+            FROM trips
+
+            JOIN routes
+                ON trips.route_id = routes.id
+
+            JOIN buses
+                ON trips.bus_id = buses.id
+
+            ORDER BY trips.departure_date ASC,
+                     trips.departure_time ASC
+        `);
+
+        res.json({
+            success: true,
+            trips: result.rows,
+        });
+
+    } catch (error) {
+        console.error("Get trips error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Server Error",
+        });
+    }
+};
+
+export const addTrip = async (req, res) => {
+    try {
+        const {
+            route_id,
+            bus_id,
+            departure_date,
+            departure_time,
+            fare
+        } = req.body;
+
+        const result = await pool.query(
+            `INSERT INTO trips
+            (route_id, bus_id, departure_date, departure_time, fare)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING *`,
+            [
+                route_id,
+                bus_id,
+                departure_date,
+                departure_time,
+                fare
+            ]
+        );
+
+        res.status(201).json({
+            success: true,
+            message: "Trip created successfully",
+            trip: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to create trip"
+        });
+    }
+};

@@ -30,3 +30,39 @@ export async function updateBookingStatus(id, status) {
 
     return response.json();
 }
+
+export const getTrips = async () => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        "http://localhost:5000/api/admin/trips",
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return response.json();
+};
+
+export async function createTrip(tripData) {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:5000/api/admin/trips", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(tripData)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
+}

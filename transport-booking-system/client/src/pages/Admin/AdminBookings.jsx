@@ -8,6 +8,7 @@ function AdminBookings() {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("All");
+    const [selectedBooking, setSelectedBooking] = useState(null);
 
     const loadBookings = useCallback(async () => {
         try {
@@ -202,7 +203,11 @@ function AdminBookings() {
 
                             filteredBookings.map((booking) => (
 
-                                <tr key={booking.id}>
+                                <tr
+                                    key={booking.id}
+                                    className="clickable-row"
+                                    onClick={() => setSelectedBooking(booking)}
+                                >
 
                                     <td>
                                         {booking.booking_reference}
@@ -231,11 +236,9 @@ function AdminBookings() {
 
                                         <select
                                             value={booking.status}
+                                            onClick={(e) => e.stopPropagation()}
                                             onChange={(e) =>
-                                                handleStatusChange(
-                                                    booking.id,
-                                                    e.target.value
-                                                )
+                                                handleStatusChange(booking.id, e.target.value)
                                             }
                                         >
 
@@ -268,6 +271,53 @@ function AdminBookings() {
                     </tbody>
 
                 </table>
+                {selectedBooking && (
+                    <div
+                        className="booking-modal-overlay"
+                        onClick={() => setSelectedBooking(null)}
+                    >
+                        <div
+                            className="booking-modal"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="modal-header">
+                                <h2>Booking Details</h2>
+
+                                <button onClick={() => setSelectedBooking(null)}>
+                                    ×
+                                </button>
+                            </div>
+
+                            <div className="modal-content">
+
+                                <div className="detail-group">
+                                    <h4>Passenger</h4>
+                                    <p><strong>Name:</strong> {selectedBooking.full_name}</p>
+                                    <p><strong>Phone:</strong> {selectedBooking.phone}</p>
+                                    <p><strong>Email:</strong> {selectedBooking.email}</p>
+                                </div>
+
+                                <div className="detail-group">
+                                    <h4>Trip</h4>
+                                    <p><strong>Date:</strong> {selectedBooking.departure_date}</p>
+                                    <p><strong>Time:</strong> {selectedBooking.departure_time}</p>
+                                    <p><strong>Seat:</strong> {selectedBooking.seat_number}</p>
+                                    <p>
+                                        <strong>Fare:</strong> ₦
+                                        {Number(selectedBooking.fare).toLocaleString()}
+                                    </p>
+                                </div>
+
+                                <div className="detail-group">
+                                    <h4>Booking</h4>
+                                    <p><strong>Reference:</strong> {selectedBooking.booking_reference}</p>
+                                    <p><strong>Status:</strong> {selectedBooking.status}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                )}
 
             </div>
 
