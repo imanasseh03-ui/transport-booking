@@ -1,5 +1,83 @@
 import pool from "../config/db.js";
 
+export const getUserDashboard = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const statsQuery = await pool.query(
+            `
+            SELECT
+                COUNT(bookings.id) AS total_bookings,
+                COUNT(*) FILTER (
+                    WHERE bookings.booking_status IN ('Confirmed', 'Completed')
+                ) AS total_trips,
+                COUNT(DISTINCT trips.route_id) AS total_routes,
+                COUNT(DISTINCT trips.bus_id) AS total_buses,
+                COALESCE(
+                    SUM(trips.fare) FILTER (
+                        WHERE bookings.booking_status = 'Confirmed'
+                    ),
+                    0
+                ) AS revenue
+            FROM bookings
+            JOIN trips
+                ON bookings.trip_id = trips.id
+            WHERE bookings.user_id = $1
+            `,
+            [userId]
+        );
+
+        const upcomingJourneyQuery = await pool.query(
+            `
+            SELECT
+                bookings.id,
+                bookings.booking_reference,
+                bookings.booking_status,
+                routes.origin,
+                routes.destination,
+                buses.bus_number,
+                trips.departure_date,
+                trips.departure_time,
+                trips.fare,
+                seats.seat_number
+            FROM bookings
+            JOIN trips
+                ON bookings.trip_id = trips.id
+            JOIN routes
+                ON trips.route_id = routes.id
+            JOIN buses
+                ON trips.bus_id = buses.id
+            JOIN seats
+                ON bookings.seat_id = seats.id
+            WHERE bookings.user_id = $1
+              AND bookings.booking_status != 'Cancelled'
+              AND trips.departure_date >= CURRENT_DATE
+            ORDER BY trips.departure_date ASC,
+                     trips.departure_time ASC
+            LIMIT 1
+            `,
+            [userId]
+        );
+
+        const stats = statsQuery.rows[0];
+
+        res.json({
+            totalBookings: Number(stats.total_bookings),
+            totalTrips: Number(stats.total_trips),
+            totalRoutes: Number(stats.total_routes),
+            totalBuses: Number(stats.total_buses),
+            revenue: Number(stats.revenue),
+            upcomingJourney: upcomingJourneyQuery.rows[0] || null,
+        });
+    } catch (error) {
+        console.error("User dashboard error:", error);
+
+        res.status(500).json({
+            message: "Failed to load dashboard",
+        });
+    }
+};
+
 export const createBooking = async (req, res) => {
 
     try {

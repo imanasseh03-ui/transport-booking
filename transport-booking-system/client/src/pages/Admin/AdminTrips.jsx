@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTrips, createTrip } from "../../api/adminApi";
+import { getTrips, createTrip, updateTrip, getRoutes, getBuses } from "../../api/adminApi";
 import "./AdminTrips.css";
 
 function AdminTrips() {
@@ -7,6 +7,10 @@ function AdminTrips() {
     const [trips, setTrips] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [editingTrip, setEditingTrip] = useState(null);
+    const [routes, setRoutes] = useState([]);
+    const [buses, setBuses] = useState([]);
+
 
     const [newTrip, setNewTrip] = useState({
         route_id: "",
@@ -18,6 +22,8 @@ function AdminTrips() {
 
     useEffect(() => {
         loadTrips();
+        loadRoutes();
+        loadBuses();
     }, []);
 
     async function loadTrips() {
@@ -33,30 +39,64 @@ function AdminTrips() {
 
     if (loading) return <h2>Loading trips...</h2>;
 
+    async function loadRoutes() {
+        try {
+            const data = await getRoutes();
+            setRoutes(data.routes || []);
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+
+    async function loadBuses() {
+        try {
+            const data = await getBuses();
+            setBuses(data.buses || []);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function handleEditClick(trip) {
+        setEditingTrip(trip);
+
+        setNewTrip({
+            route_id: trip.route_id,
+            bus_id: trip.bus_id,
+            departure_date: trip.departure_date.split("T")[0],
+            departure_time: trip.departure_time.slice(0, 5),
+            fare: trip.fare
+        });
+
+        setShowModal(true);
+    }
+
+
     async function handleAddTrip() {
         try {
-            if (
-                !newTrip.route_id ||
-                !newTrip.bus_id ||
-                !newTrip.departure_date ||
-                !newTrip.departure_time ||
-                !newTrip.fare
-            ) {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            await createTrip({
-                route_id: Number(newTrip.route_id),
-                bus_id: Number(newTrip.bus_id),
-                departure_date: newTrip.departure_date,
-                departure_time: newTrip.departure_time,
-                fare: Number(newTrip.fare)
-            });
+            if (editingTrip) {
+    await updateTrip(editingTrip.id, {
+        route_id: Number(newTrip.route_id),
+        bus_id: Number(newTrip.bus_id),
+        departure_date: newTrip.departure_date,
+        departure_time: newTrip.departure_time,
+        fare: Number(newTrip.fare)
+    });
+} else {
+    await createTrip({
+        route_id: Number(newTrip.route_id),
+        bus_id: Number(newTrip.bus_id),
+        departure_date: newTrip.departure_date,
+        departure_time: newTrip.departure_time,
+        fare: Number(newTrip.fare)
+    });
+}
 
             await loadTrips();
 
             setShowModal(false);
+
 
             setNewTrip({
                 route_id: "",
@@ -78,25 +118,37 @@ function AdminTrips() {
             {showModal && (
                 <div className="modal-overlay">
                     <div className="trip-modal">
-                        <h2>Add New Trip</h2>
+                        <h2>{editingTrip ? "Edit Trip" : "Add New Trip"}</h2>
 
-                        <input
-                            type="text"
-                            placeholder="Route ID"
+                        <select
                             value={newTrip.route_id}
                             onChange={(e) =>
                                 setNewTrip({ ...newTrip, route_id: e.target.value })
                             }
-                        />
+                        >
+                            <option value="">Select Route</option>
 
-                        <input
-                            type="text"
-                            placeholder="Bus ID"
+                            {routes.map((route) => (
+                                <option key={route.id} value={route.id}>
+                                    {route.origin} → {route.destination}
+                                </option>
+                            ))}
+                        </select>
+
+                        <select
                             value={newTrip.bus_id}
                             onChange={(e) =>
                                 setNewTrip({ ...newTrip, bus_id: e.target.value })
                             }
-                        />
+                        >
+                            <option value="">Select Bus</option>
+
+                            {buses.map((bus) => (
+                                <option key={bus.id} value={bus.id}>
+                                    {bus.bus_number}
+                                </option>
+                            ))}
+                        </select>
 
                         <input
                             type="date"
@@ -135,7 +187,7 @@ function AdminTrips() {
                                 className="primary-btn"
                                 onClick={handleAddTrip}
                             >
-                                Save Trip
+                                {editingTrip ? "Update Trip" : "Save Trip"}
                             </button>
                         </div>
                     </div>
@@ -147,7 +199,17 @@ function AdminTrips() {
 
                 <button
                     className="add-trip-btn"
-                    onClick={() => setShowModal(true)}
+                    onClick={() => {
+                        setEditingTrip(null);
+                        setNewTrip({
+                            route_id: "",
+                            bus_id: "",
+                            departure_date: "",
+                            departure_time: "",
+                            fare: ""
+                        });
+                        setShowModal(true);
+                    }}
                 >
                     + Add Trip
                 </button>
@@ -165,6 +227,7 @@ function AdminTrips() {
                             <th>Time</th>
                             <th>Fare</th>
                             <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
 
@@ -173,30 +236,28 @@ function AdminTrips() {
                         {trips.map((trip) => (
 
                             <tr key={trip.id}>
-                                <td>
-                                    {trip.origin} → {trip.destination}
-                                </td>
+                                <td>{trip.origin} → {trip.destination}</td>
+
+                                <td>{trip.bus_number}</td>
+
+                                <td>{trip.departure_date}</td>
+
+                                <td>{trip.departure_time}</td>
+
+                                <td>₦{Number(trip.fare).toLocaleString()}</td>
+
+                                <td>{trip.status}</td>
 
                                 <td>
-                                    {trip.bus_number}
-                                </td>
-
-                                <td>
-                                    {trip.departure_date}
-                                </td>
-
-                                <td>
-                                    {trip.departure_time}
-                                </td>
-
-                                <td>
-                                    ₦{Number(trip.fare).toLocaleString()}
-                                </td>
-
-                                <td>
-                                    {trip.status}
+                                    <button
+                                        className="edit-btn"
+                                        onClick={() => handleEditClick(trip)}
+                                    >
+                                        Edit
+                                    </button>
                                 </td>
                             </tr>
+
 
                         ))}
 

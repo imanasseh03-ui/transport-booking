@@ -118,3 +118,72 @@ export const addTrip = async (req, res) => {
         });
     }
 };
+
+export const updateTrip = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const {
+            route_id,
+            bus_id,
+            departure_date,
+            departure_time,
+            fare
+        } = req.body;
+
+        const result = await pool.query(
+            `UPDATE trips
+             SET route_id = $1,
+                 bus_id = $2,
+                 departure_date = $3,
+                 departure_time = $4,
+                 fare = $5
+             WHERE id = $6
+             RETURNING *`,
+            [
+                route_id,
+                bus_id,
+                departure_date,
+                departure_time,
+                fare,
+                id
+            ]
+        );
+
+        res.json({
+            success: true,
+            message: "Trip updated successfully",
+            trip: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to update trip"
+        });
+    }
+};
+
+export const getRoutes = async (req, res) => {
+    const result = await pool.query(
+        "SELECT id, origin, destination FROM routes ORDER BY origin"
+    );
+
+    res.json({
+        success: true,
+        routes: result.rows
+    });
+};
+
+export const getBuses = async (req, res) => {
+    const result = await pool.query(
+        "SELECT id, bus_number FROM buses ORDER BY bus_number"
+    );
+
+    res.json({
+        success: true,
+        buses: result.rows
+    });
+};
+

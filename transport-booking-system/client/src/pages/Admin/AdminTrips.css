@@ -115,3 +115,19 @@
     border: 1px solid var(--border);
     border-radius: 8px;
 }
+
+.trip-modal input,
+.trip-modal select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    background: #fff;
+}
+
+.trip-modal input:focus,
+.trip-modal select:focus {
+    border-color: var(--primary-dark);
+}

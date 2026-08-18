@@ -1,6 +1,7 @@
 import express from "express";
 import { 
     createBooking,
+    getUserDashboard,
     getBookings,
     updateBookingStatus,
 } from "../controllers/bookingController.js";
@@ -15,6 +16,12 @@ router.post(
     "/", 
     authMiddleware, 
     createBooking
+);
+
+router.get(
+    "/dashboard",
+    authMiddleware,
+    getUserDashboard
 );
 
 router.get("/", getBookings);
