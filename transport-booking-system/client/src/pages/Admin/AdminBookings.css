@@ -219,3 +219,47 @@
     margin: 6px 0;
     color: var(--text-light);
 }
+
+.trip-info{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.trip-info strong{
+    color:#1E293B;
+}
+
+.trip-info span{
+    font-size:12px;
+    color:#64748B;
+}
+
+.status-cell{
+    border-radius:8px;
+    padding:4px 8px;
+}
+
+.status-cell select{
+    border:none;
+    background:transparent;
+    font-weight:600;
+    cursor:pointer;
+    outline:none;
+}
+
+.status-pending{
+    background:#FEF3C7;
+}
+
+.status-confirmed{
+    background:#DBEAFE;
+}
+
+.status-completed{
+    background:#D1FAE5;
+}
+
+.status-cancelled{
+    background:#FEE2E2;
+}

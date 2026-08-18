@@ -1,0 +1,78 @@
+.admin-users {
+    padding: 2rem;
+    background: var(--background);
+    min-height: 100vh;
+}
+
+.users-header {
+    margin-bottom: 20px;
+}
+
+.users-header h1 {
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+}
+
+.users-header p {
+    color: #64748B;
+}
+
+.user-search {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+.user-search:focus {
+    border-color: var(--primary-dark);
+}
+
+.users-table {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.users-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.users-table th {
+    background: #F8FAFC;
+    color: #475569;
+    font-weight: 600;
+}
+
+.role-badge {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.role-badge.admin {
+    background: #DBEAFE;
+    color: #1D4ED8;
+}
+
+.role-badge.user {
+    background: #E5E7EB;
+    color: #374151;
+}
+
+.users-table tbody tr:hover {
+    background: #F8FAFC;
+}

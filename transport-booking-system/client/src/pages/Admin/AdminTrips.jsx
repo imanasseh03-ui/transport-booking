@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTrips, createTrip, updateTrip, getRoutes, getBuses } from "../../api/adminApi";
+import { getTrips, createTrip, updateTrip, deleteTrip, getRoutes, getBuses } from "../../api/adminApi";
 import "./AdminTrips.css";
 
 function AdminTrips() {
@@ -72,26 +72,41 @@ function AdminTrips() {
         setShowModal(true);
     }
 
+    async function handleDeleteTrip(id) {
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this trip?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await deleteTrip(id);
+            await loadTrips();
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+
 
     async function handleAddTrip() {
         try {
             if (editingTrip) {
-    await updateTrip(editingTrip.id, {
-        route_id: Number(newTrip.route_id),
-        bus_id: Number(newTrip.bus_id),
-        departure_date: newTrip.departure_date,
-        departure_time: newTrip.departure_time,
-        fare: Number(newTrip.fare)
-    });
-} else {
-    await createTrip({
-        route_id: Number(newTrip.route_id),
-        bus_id: Number(newTrip.bus_id),
-        departure_date: newTrip.departure_date,
-        departure_time: newTrip.departure_time,
-        fare: Number(newTrip.fare)
-    });
-}
+                await updateTrip(editingTrip.id, {
+                    route_id: Number(newTrip.route_id),
+                    bus_id: Number(newTrip.bus_id),
+                    departure_date: newTrip.departure_date,
+                    departure_time: newTrip.departure_time,
+                    fare: Number(newTrip.fare)
+                });
+            } else {
+                await createTrip({
+                    route_id: Number(newTrip.route_id),
+                    bus_id: Number(newTrip.bus_id),
+                    departure_date: newTrip.departure_date,
+                    departure_time: newTrip.departure_time,
+                    fare: Number(newTrip.fare)
+                });
+            }
 
             await loadTrips();
 
@@ -249,12 +264,21 @@ function AdminTrips() {
                                 <td>{trip.status}</td>
 
                                 <td>
-                                    <button
-                                        className="edit-btn"
-                                        onClick={() => handleEditClick(trip)}
-                                    >
-                                        Edit
-                                    </button>
+                                    <div className="action-buttons">
+                                        <button
+                                            className="edit-btn"
+                                            onClick={() => handleEditClick(trip)}
+                                        >
+                                            Edit
+                                        </button>
+
+                                        <button
+                                            className="delete-btn"
+                                            onClick={() => handleDeleteTrip(trip.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
 

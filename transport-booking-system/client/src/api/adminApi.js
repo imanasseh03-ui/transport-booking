@@ -1,35 +1,45 @@
-const API_URL = "http://localhost:5000/api";
-
 export async function getBookings() {
-    const response = await fetch(
-        `${API_URL}/bookings`
-    );
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:5000/api/admin/bookings", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const data = await response.json();
 
     if (!response.ok) {
-        throw new Error("Failed to fetch bookings");
+        throw new Error(data.message);
     }
 
-    return response.json();
+    return data;
 }
 
 export async function updateBookingStatus(id, status) {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(
-        `${API_URL}/bookings/${id}`,
+        `http://localhost:5000/api/admin/bookings/${id}`,
         {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ status }),
+            body: JSON.stringify({ status })
         }
     );
 
+    const data = await response.json();
+
     if (!response.ok) {
-        throw new Error("Failed to update booking");
+        throw new Error(data.message);
     }
 
-    return response.json();
+    return data;
 }
+
 
 export const getTrips = async () => {
     const token = localStorage.getItem("token");
@@ -57,6 +67,28 @@ export async function createTrip(tripData) {
         },
         body: JSON.stringify(tripData)
     });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
+}
+
+export async function deleteTrip(id) {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        `http://localhost:5000/api/admin/trips/${id}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
 
     const data = await response.json();
 
@@ -115,3 +147,20 @@ export async function updateTrip(id, tripData) {
     return data;
 }
 
+export async function getUsers() {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:5000/api/admin/users", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
+}

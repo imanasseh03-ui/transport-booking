@@ -165,6 +165,29 @@ export const updateTrip = async (req, res) => {
     }
 };
 
+export const deleteTrip = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        await pool.query(
+            "DELETE FROM trips WHERE id = $1",
+            [id]
+        );
+
+        res.json({
+            success: true,
+            message: "Trip deleted successfully"
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to delete trip"
+        });
+    }
+};
+
 export const getRoutes = async (req, res) => {
     const result = await pool.query(
         "SELECT id, origin, destination FROM routes ORDER BY origin"
@@ -187,3 +210,102 @@ export const getBuses = async (req, res) => {
     });
 };
 
+export const getAllBookings = async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT
+                b.id,
+                b.booking_reference,
+                b.booking_status AS status,
+
+                u.full_name,
+                u.phone,
+                u.email,
+
+                s.seat_number,
+
+                t.departure_date,
+                t.departure_time,
+                t.fare,
+
+                r.origin,
+                r.destination
+
+            FROM bookings b
+            JOIN users u ON b.user_id = u.id
+            JOIN trips t ON b.trip_id = t.id
+            JOIN routes r ON t.route_id = r.id
+            JOIN seats s ON b.seat_id = s.id
+
+            ORDER BY b.created_at DESC
+        `);
+
+        res.json({
+            success: true,
+            bookings: result.rows
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to load bookings"
+        });
+    }
+};
+
+export const updateBookingStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const result = await pool.query(
+            `UPDATE bookings
+             SET booking_status = $1
+             WHERE id = $2
+             RETURNING *`,
+            [status, id]
+        );
+
+        res.json({
+            success: true,
+            message: "Booking status updated successfully",
+            booking: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to update booking status"
+        });
+    }
+};
+
+export const getAllUsers = async (req, res) => {
+    try{
+        const result = await pool.query(`
+            SELECT
+                id,
+                full_name,
+                email,
+                phone,
+                role,
+                created_at
+            FROM users
+            ORDER BY created_at DESC
+            
+            `);
+
+            res.json({
+                success: true,
+                users: result.rows
+            });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to load users"
+        });
+    }
+};

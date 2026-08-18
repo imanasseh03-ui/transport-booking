@@ -20,6 +20,7 @@ import RouteBooking from "./pages/RouteBooking";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
 import AdminTrips from "./pages/Admin/AdminTrips";
+import AdminUsers from "./pages/Admin/AdminUsers";
 
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
         />
 
         <Route path="/admin/trips" element={<AdminTrips />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
 
       </Routes>
     </BrowserRouter>

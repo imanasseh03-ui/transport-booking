@@ -8,8 +8,12 @@ import {
     getAllTrips,
     addTrip,
     updateTrip,
+    deleteTrip,
     getRoutes,
-    getBuses
+    getBuses,
+    getAllBookings,
+    updateBookingStatus,
+    getAllUsers
 } from "../controllers/adminController.js";
 
 
@@ -19,8 +23,13 @@ router.get("/dashboard", verifyToken, verifyAdmin, getDashboardStats);
 router.get("/trips", verifyToken, verifyAdmin, getAllTrips);
 router.post("/trips", verifyToken, verifyAdmin, addTrip);
 router.put("/trips/:id", verifyToken, verifyAdmin, updateTrip);
+router.delete("/trips/:id", verifyToken, verifyAdmin, deleteTrip);
 
 router.get("/routes", verifyToken, verifyAdmin, getRoutes);
 router.get("/buses", verifyToken, verifyAdmin, getBuses);
+
+router.get("/bookings", verifyToken, verifyAdmin, getAllBookings);
+router.put("/bookings/:id", verifyToken, verifyAdmin, updateBookingStatus);
+router.get("/users", verifyToken, verifyAdmin, getAllUsers);
 
 export default router;
