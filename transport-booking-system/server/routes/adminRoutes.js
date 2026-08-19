@@ -13,7 +13,9 @@ import {
     getBuses,
     getAllBookings,
     updateBookingStatus,
-    getAllUsers
+    getAllUsers,
+    getAllBuses,
+    addBus
 } from "../controllers/adminController.js";
 
 
@@ -31,5 +33,7 @@ router.get("/buses", verifyToken, verifyAdmin, getBuses);
 router.get("/bookings", verifyToken, verifyAdmin, getAllBookings);
 router.put("/bookings/:id", verifyToken, verifyAdmin, updateBookingStatus);
 router.get("/users", verifyToken, verifyAdmin, getAllUsers);
+router.get("/buses", verifyToken, verifyAdmin, getAllBuses);
+router.post("/buses", verifyToken, verifyAdmin, addBus);
 
 export default router;

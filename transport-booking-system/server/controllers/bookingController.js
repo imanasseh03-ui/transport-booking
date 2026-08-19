@@ -4,57 +4,99 @@ export const getUserDashboard = async (req, res) => {
     try {
         const userId = req.user.id;
 
+        // Summary
         const statsQuery = await pool.query(
             `
             SELECT
-                COUNT(bookings.id) AS total_bookings,
+                COUNT(*) AS total_bookings,
+
                 COUNT(*) FILTER (
-                    WHERE bookings.booking_status IN ('Confirmed', 'Completed')
-                ) AS total_trips,
-                COUNT(DISTINCT trips.route_id) AS total_routes,
-                COUNT(DISTINCT trips.bus_id) AS total_buses,
-                COALESCE(
-                    SUM(trips.fare) FILTER (
-                        WHERE bookings.booking_status = 'Confirmed'
-                    ),
-                    0
-                ) AS revenue
+                    WHERE booking_status = 'Completed'
+                ) AS total_trips
+
             FROM bookings
-            JOIN trips
-                ON bookings.trip_id = trips.id
-            WHERE bookings.user_id = $1
+            WHERE user_id = $1
             `,
             [userId]
         );
 
+        // Upcoming journey
         const upcomingJourneyQuery = await pool.query(
             `
             SELECT
-                bookings.id,
-                bookings.booking_reference,
-                bookings.booking_status,
-                routes.origin,
-                routes.destination,
-                buses.bus_number,
-                trips.departure_date,
-                trips.departure_time,
-                trips.fare,
-                seats.seat_number
-            FROM bookings
-            JOIN trips
-                ON bookings.trip_id = trips.id
-            JOIN routes
-                ON trips.route_id = routes.id
-            JOIN buses
-                ON trips.bus_id = buses.id
-            JOIN seats
-                ON bookings.seat_id = seats.id
-            WHERE bookings.user_id = $1
-              AND bookings.booking_status != 'Cancelled'
-              AND trips.departure_date >= CURRENT_DATE
-            ORDER BY trips.departure_date ASC,
-                     trips.departure_time ASC
+                b.id,
+                b.booking_reference,
+                b.booking_status,
+
+                r.origin,
+                r.destination,
+
+                bus.bus_number,
+
+                t.departure_date,
+                t.departure_time,
+
+                s.seat_number
+
+            FROM bookings b
+
+            JOIN trips t
+                ON b.trip_id = t.id
+
+            JOIN routes r
+                ON t.route_id = r.id
+
+            JOIN buses bus
+                ON t.bus_id = bus.id
+
+            JOIN seats s
+                ON b.seat_id = s.id
+
+            WHERE b.user_id = $1
+              AND b.booking_status = 'Confirmed'
+              AND t.departure_date >= CURRENT_DATE
+
+            ORDER BY
+                t.departure_date,
+                t.departure_time
+
             LIMIT 1
+            `,
+            [userId]
+        );
+
+        // Recent bookings
+        const recentBookingsQuery = await pool.query(
+            `
+            SELECT
+                b.id,
+                b.booking_reference,
+                b.booking_status,
+
+                r.origin,
+                r.destination,
+
+                t.departure_date,
+                t.departure_time,
+
+                s.seat_number
+
+            FROM bookings b
+
+            JOIN trips t
+                ON b.trip_id = t.id
+
+            JOIN routes r
+                ON t.route_id = r.id
+
+            JOIN seats s
+                ON b.seat_id = s.id
+
+            WHERE b.user_id = $1
+
+            ORDER BY b.created_at DESC
+
+            LIMIT 5
             `,
             [userId]
         );
@@ -64,11 +106,12 @@ export const getUserDashboard = async (req, res) => {
         res.json({
             totalBookings: Number(stats.total_bookings),
             totalTrips: Number(stats.total_trips),
-            totalRoutes: Number(stats.total_routes),
-            totalBuses: Number(stats.total_buses),
-            revenue: Number(stats.revenue),
+
             upcomingJourney: upcomingJourneyQuery.rows[0] || null,
+
+            recentBookings: recentBookingsQuery.rows,
         });
+
     } catch (error) {
         console.error("User dashboard error:", error);
 
@@ -138,6 +181,66 @@ export const createBooking = async (req, res) => {
 
     }
 
+};
+
+export const getUserBookings = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const result = await pool.query(
+            `
+            SELECT
+                bookings.id,
+                bookings.booking_reference,
+                bookings.booking_status,
+                bookings.created_at,
+
+                trips.departure_date,
+                trips.departure_time,
+                trips.fare,
+
+                routes.origin,
+                routes.destination,
+                routes.duration,
+
+                buses.bus_number,
+
+                seats.seat_number
+
+            FROM bookings
+
+            JOIN trips
+                ON bookings.trip_id = trips.id
+
+            JOIN routes
+                ON trips.route_id = routes.id
+
+            JOIN buses
+                ON trips.bus_id = buses.id
+
+            JOIN seats
+                ON bookings.seat_id = seats.id
+
+            WHERE bookings.user_id = $1
+
+            ORDER BY bookings.created_at DESC
+            `,
+            [userId]
+        );
+
+        res.json({
+            success: true,
+            bookings: result.rows,
+        });
+
+    } catch (error) {
+        console.error("Get user bookings error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to load your bookings",
+        });
+    }
 };
 
 

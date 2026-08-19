@@ -309,3 +309,50 @@ export const getAllUsers = async (req, res) => {
         });
     }
 };
+
+export const getAllBuses = async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT id, bus_number, capacity
+            FROM buses
+            ORDER BY bus_number
+        `);
+
+        res.json({
+            success: true,
+            buses: result.rows
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to load buses"
+        });
+    }
+};
+
+export const addBus = async (req, res) => {
+    try {
+        const { bus_number, capacity } = req.body;
+
+        const result = await pool.query(
+            `INSERT INTO buses (bus_number, capacity)
+             VALUES ($1, $2)
+             RETURNING *`,
+            [bus_number, capacity]
+        );
+
+        res.status(201).json({
+            success: true,
+            bus: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to add bus"
+        });
+    }
+};

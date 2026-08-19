@@ -9,6 +9,7 @@ import {
 
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
+import logo from "../../assets/images/logo.png";
 
 function Sidebar() {
     const { logout } = useAuth();
@@ -16,7 +17,11 @@ function Sidebar() {
     return (
         <aside className="sidebar">
             <div className="logo">
-                <h2>BlueWhales</h2>
+                <img
+                    src={logo}
+                    alt="BlueWhales Logo"
+                    className="dashboard-logo-image"
+                />
                 <p>Travel Made Simple</p>
             </div>
 
@@ -31,7 +36,7 @@ function Sidebar() {
                     <span>My Bookings</span>
                 </NavLink>
 
-                <NavLink to="/booking">
+                <NavLink to="/book-trip">
                     <FaBus />
                     <span>Book Trip</span>
                 </NavLink>

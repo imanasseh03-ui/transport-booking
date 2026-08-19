@@ -1,15 +1,29 @@
 import { FaBell } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 
 function Topbar() {
     const { user } = useAuth();
+    const location = useLocation();
+
+    const pageTitles = {
+        "/dashboard": "Dashboard",
+        "/bookings": "My Bookings",
+        "/dashboard/bookings": "My Bookings",
+        "/book-trip": "Book Trip",
+        "/booking": "Book Trip",
+        "/profile": "Profile",
+        "/settings": "Settings",
+    };
+
+    const title = pageTitles[location.pathname] || "Dashboard";
 
     return (
         <header className="topbar">
 
             <div>
                 <h2>
-                    Dashboard
+                    {title}
                 </h2>
 
                 <p>
@@ -20,9 +34,14 @@ function Topbar() {
 
             <div className="topbar-right">
 
-                <button className="notification">
+                <Link
+                    to="/bookings"
+                    className="notification"
+                    aria-label="View booking notifications"
+                    title="View booking notifications"
+                >
                     <FaBell />
-                </button>
+                </Link>
 
 
                 <div className="user-info">

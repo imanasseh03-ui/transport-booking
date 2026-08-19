@@ -1,0 +1,83 @@
+.admin-buses {
+    padding: 2rem;
+    background: var(--background);
+    min-height: 100vh;
+}
+
+.buses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.buses-header h1 {
+    color: var(--primary-dark);
+}
+
+.buses-header button {
+    background: var(--primary-dark);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.buses-table {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.buses-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.buses-table th,
+.buses-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.buses-table th {
+    background: #F8FAFC;
+    color: #475569;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.bus-modal {
+    background: #fff;
+    width: 420px;
+    padding: 24px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bus-modal input {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}

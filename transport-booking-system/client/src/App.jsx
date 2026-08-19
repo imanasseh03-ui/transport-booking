@@ -11,6 +11,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
+import MyBookings from "./pages/MyBookings";
+import BookTrip from "./pages/BookTrip";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import BookingSummary from "./pages/BookingSummary";
 import AdminBookings from "./pages/Admin/AdminBookings";
@@ -21,6 +25,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
 import AdminTrips from "./pages/Admin/AdminTrips";
 import AdminUsers from "./pages/Admin/AdminUsers";
+import AdminBuses from "./pages/Admin/AdminBuses";
 
 
 function App() {
@@ -46,6 +51,60 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/bookings"
+          element={
+            <ProtectedRoute>
+              <MyBookings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard/bookings"
+          element={
+            <ProtectedRoute>
+              <MyBookings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/book-trip"
+          element={
+            <ProtectedRoute>
+              <BookTrip />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/booking"
+          element={
+            <ProtectedRoute>
+              <BookTrip />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute>
           }
         />
@@ -86,6 +145,7 @@ function App() {
 
         <Route path="/admin/trips" element={<AdminTrips />} />
         <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="/admin/buses" element={<AdminBuses />} />
 
       </Routes>
     </BrowserRouter>

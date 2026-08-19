@@ -1,0 +1,152 @@
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --primary: #4EA3FF;
+  --primary-dark: #82BFFF;
+  --primary-light: #123A61;
+  --secondary: #34D2D0;
+  --accent: #FBBF24;
+
+  --background: #0B1220;
+  --background-soft: #111A2B;
+  --surface: #121C2D;
+  --surface-muted: #182438;
+
+  --text: #E5ECF6;
+  --text-heading: #F8FAFC;
+  --text-light: #B6C2D2;
+  --text-muted: #8EA0B7;
+
+  --border: #26364F;
+  --border-strong: #3A4D6A;
+
+  --success: #4ADE80;
+  --warning: #FBBF24;
+  --danger: #F87171;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.42);
+}
+
+[data-theme="dark"] body {
+  background: var(--background);
+}
+
+[data-theme="dark"] .navbar,
+[data-theme="dark"] .auth-card,
+[data-theme="dark"] .search-card,
+[data-theme="dark"] .popular-route-card,
+[data-theme="dark"] .feature-card,
+[data-theme="dark"] .step-card,
+[data-theme="dark"] .booking-card,
+[data-theme="dark"] .trip-card,
+[data-theme="dark"] .summary-card,
+[data-theme="dark"] .success-card,
+[data-theme="dark"] .seat-container > div:not(.bus-layout),
+[data-theme="dark"] .route-page-card,
+[data-theme="dark"] .route-booking-container,
+[data-theme="dark"] .admin-card,
+[data-theme="dark"] .admin-table-wrapper,
+[data-theme="dark"] .modal-content {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .routes-page,
+[data-theme="dark"] .route-booking,
+[data-theme="dark"] .search-results,
+[data-theme="dark"] .admin-users,
+[data-theme="dark"] .admin-trips,
+[data-theme="dark"] .admin-bookings,
+[data-theme="dark"] .admin-buses {
+  background: var(--background);
+}
+
+[data-theme="dark"] .dashboard-layout {
+  background: linear-gradient(180deg, #0B1220 0%, #111A2B 100%);
+}
+
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .footer {
+  background: #07101F;
+}
+
+[data-theme="dark"] .topbar {
+  background: rgba(18, 28, 45, 0.94);
+}
+
+[data-theme="dark"] .route-line,
+[data-theme="dark"] .booking-item,
+[data-theme="dark"] .profile-avatar,
+[data-theme="dark"] .setting-row,
+[data-theme="dark"] .selected-route,
+[data-theme="dark"] .admin-table th,
+[data-theme="dark"] .admin-table tbody tr:hover {
+  background: var(--surface-muted);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: #0F172A;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] label,
+[data-theme="dark"] .route-title span,
+[data-theme="dark"] .route-icon,
+[data-theme="dark"] .trip-price h3 {
+  color: var(--text-heading);
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] small,
+[data-theme="dark"] .route-details p {
+  color: var(--text-light);
+}
+
+[data-theme="dark"] .logout-btn {
+  background: var(--surface);
+  color: var(--text-heading);
+}
+
+[data-theme="dark"] .stat-icon,
+[data-theme="dark"] .booking-item-icon {
+  background: #123A3F;
+}
+
+[data-theme="dark"] .status-badge.pending {
+  background: #4A3413;
+  color: #FDE68A;
+}
+
+[data-theme="dark"] .status-badge.confirmed {
+  background: #16365F;
+  color: #BFDBFE;
+}
+
+[data-theme="dark"] .status-badge.completed {
+  background: #123D2B;
+  color: #BBF7D0;
+}
+
+[data-theme="dark"] .status-badge.cancelled {
+  background: #4A1D24;
+  color: #FECACA;
+}

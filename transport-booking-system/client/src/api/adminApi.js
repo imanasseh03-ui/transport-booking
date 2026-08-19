@@ -164,3 +164,44 @@ export async function getUsers() {
 
     return data;
 }
+
+export async function getAdminBuses() {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        "http://localhost:5000/api/admin/buses",
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    return data;
+}
+
+export async function createBus(busData) {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        "http://localhost:5000/api/admin/buses",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(busData)
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    return data;
+}
