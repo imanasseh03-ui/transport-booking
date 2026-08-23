@@ -8,6 +8,7 @@ import tripRoutes from "./routes/tripRoutes.js";
 import seatRoutes from "./routes/seatRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import scheduleRoutes from "./routes/scheduleRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js"
 
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use("/api/trips", tripRoutes);
 app.use("/api/seats", seatRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/schedules", scheduleRoutes);
+app.use("/api/payment", paymentRoutes);
 
 
 export default app;

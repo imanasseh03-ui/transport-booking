@@ -130,10 +130,79 @@ export const createBooking = async (req, res) => {
             seat_id
         } = req.body;
 
+        if (!trip_id || !seat_id) {
+            return res.status(400).json({
+                message: "Trip and seat are required",
+            });
+        }
+
         const user_id = req.user.id;
 
         const booking_reference =
-            "BW" + Date.now();
+            `BW${Date.now()}${Math.floor(Math.random() * 1000)}`;
+
+        const seatForTrip = await pool.query(
+            `
+            SELECT
+                trips.id AS trip_id,
+                seats.id AS seat_id
+            FROM trips
+            JOIN seats
+                ON seats.bus_id = trips.bus_id
+            WHERE trips.id = $1
+              AND seats.id = $2
+            `,
+            [trip_id, seat_id]
+        );
+
+        if (seatForTrip.rows.length === 0) {
+            return res.status(400).json({
+                message: "Selected seat is not available for this trip",
+            });
+        }
+
+        // Check if this user already has a pending booking for this seat
+        const existingPending = await pool.query(
+            `
+    SELECT *
+    FROM bookings
+    WHERE user_id = $1
+      AND trip_id = $2
+      AND seat_id = $3
+      AND booking_status = 'Pending'
+    LIMIT 1
+    `,
+            [user_id, trip_id, seat_id]
+        );
+
+        // Reuse the pending booking instead of creating another one
+        if (existingPending.rows.length > 0) {
+            return res.json({
+                message: "Existing pending booking found",
+                booking: existingPending.rows[0]
+            });
+        }
+
+        // Check if the seat has already been confirmed by anyone
+        const bookedSeat = await pool.query(
+            `
+    SELECT id
+    FROM bookings
+    WHERE trip_id = $1
+      AND seat_id = $2
+      AND booking_status IN ('Confirmed', 'Completed')
+    LIMIT 1
+    `,
+            [trip_id, seat_id]
+        );
+
+        if (bookedSeat.rows.length > 0) {
+            return res.status(409).json({
+                message: "This seat has already been booked."
+            });
+        }
+
+
 
         const result = await pool.query(
             `
@@ -165,12 +234,25 @@ export const createBooking = async (req, res) => {
 
         console.error(error);
 
-        // Seat is already booked for this trip
-        if (error.code === "23505") {
+        if (
+            error.code === "23505" &&
+            error.constraint === "bookings_trip_id_seat_id_key"
+        ) {
 
             return res.status(409).json({
                 message:
                     "This seat has already been booked. Please select another seat."
+            });
+
+        }
+
+        if (
+            error.code === "23505" &&
+            error.constraint === "bookings_booking_reference_key"
+        ) {
+
+            return res.status(409).json({
+                message: "Booking reference conflict. Please try again.",
             });
 
         }

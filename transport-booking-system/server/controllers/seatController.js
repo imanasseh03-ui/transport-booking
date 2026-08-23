@@ -29,6 +29,7 @@ export const getSeatsByTrip = async (req, res) => {
             LEFT JOIN bookings
             ON bookings.seat_id = seats.id
             AND bookings.trip_id = trips.id
+            AND bookings.booking_status != 'Cancelled'
 
 
             WHERE trips.id = $1

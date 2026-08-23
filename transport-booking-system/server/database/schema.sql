@@ -40,9 +40,12 @@ CREATE TABLE bookings (
     seat_id INT REFERENCES seats(id),
     booking_reference VARCHAR(30) UNIQUE NOT NULL,
     booking_status VARCHAR(30) DEFAULT 'Pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(trip_id, seat_id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE UNIQUE INDEX bookings_active_trip_seat_key
+ON bookings(trip_id, seat_id)
+WHERE booking_status != 'Cancelled';
 
 CREATE TABLE payments (
     id SERIAL PRIMARY KEY,

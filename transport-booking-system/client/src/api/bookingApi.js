@@ -19,10 +19,36 @@ export async function createBooking(bookingData) {
     });
 
 
+    const data = await response.json();
+
     if (!response.ok) {
-        throw new Error("Failed to create booking");
+        throw new Error(data.message || "Failed to create booking");
     }
 
-
-    return response.json();
+    return data;
 }
+
+export async function initializePayment(paymentData) {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        "http://localhost:5000/api/payment/initialize",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(paymentData),
+        }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
+}
+

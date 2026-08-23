@@ -1,5 +1,5 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { createBooking } from "../api/bookingApi";
+import { createBooking, initializePayment } from "../api/bookingApi";
 import { useAuth } from "../context/useAuth";
 
 function BookingSummary() {
@@ -29,21 +29,35 @@ function BookingSummary() {
     const bookingReference =
         bookingData.bookingReference || "Generated after confirmation";
 
-    const handleConfirmBooking = async () => {
-        try {
-            const response = await createBooking({
+   async function handleConfirmBooking() {
+    try {
+        // Use existing booking if available
+        let booking = bookingData.booking;
+
+        // Otherwise create a new pending booking
+        if (!booking) {
+            const bookingResponse = await createBooking({
                 trip_id: bookingData.trip.id,
                 seat_id: bookingData.seat.id,
             });
 
-            navigate("/booking-success", {
-                state: response.booking,
-            });
-        } catch (error) {
-            console.error(error);
-            alert("Booking Failed");
+            booking = bookingResponse.booking;
         }
-    };
+
+        // Initialize Paystack payment
+        const payment = await initializePayment({
+            bookingId: booking.id,
+            email: bookingData.passenger.email,
+            amount: bookingData.trip.fare,
+        });
+
+        // Redirect to Paystack
+        window.location.href = payment.authorization_url;
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
 
     return (
         <section className="booking-summary">
@@ -81,8 +95,8 @@ function BookingSummary() {
 
                 <p>Status: Pending Confirmation</p>
 
-                <button onClick={handleConfirmBooking}>
-                    Confirm Booking
+                <button className="confirm-btn" onClick={handleConfirmBooking}>
+                    Pay ₦{Number(bookingData.trip.fare).toLocaleString()}
                 </button>
             </div>
         </section>
