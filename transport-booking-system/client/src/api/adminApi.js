@@ -1,7 +1,9 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export async function getBookings() {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/api/admin/bookings", {
+    const response = await fetch(`${API_URL}/admin/bookings`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -20,7 +22,7 @@ export async function updateBookingStatus(id, status) {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        `http://localhost:5000/api/admin/bookings/${id}`,
+        `${API_URL}/admin/bookings/${id}`,
         {
             method: "PUT",
             headers: {
@@ -40,12 +42,11 @@ export async function updateBookingStatus(id, status) {
     return data;
 }
 
-
 export const getTrips = async () => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        "http://localhost:5000/api/admin/trips",
+        `${API_URL}/admin/trips`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -59,7 +60,7 @@ export const getTrips = async () => {
 export async function createTrip(tripData) {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/api/admin/trips", {
+    const response = await fetch(`${API_URL}/admin/trips`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -81,7 +82,7 @@ export async function deleteTrip(id) {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        `http://localhost:5000/api/admin/trips/${id}`,
+        `${API_URL}/admin/trips/${id}`,
         {
             method: "DELETE",
             headers: {
@@ -102,7 +103,7 @@ export async function deleteTrip(id) {
 export async function getRoutes() {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/api/admin/routes", {
+    const response = await fetch(`${API_URL}/admin/routes`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -114,7 +115,7 @@ export async function getRoutes() {
 export async function getBuses() {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/api/admin/buses", {
+    const response = await fetch(`${API_URL}/admin/buses`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -127,7 +128,7 @@ export async function updateTrip(id, tripData) {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        `http://localhost:5000/api/admin/trips/${id}`,
+        `${API_URL}/admin/trips/${id}`,
         {
             method: "PUT",
             headers: {
@@ -150,7 +151,7 @@ export async function updateTrip(id, tripData) {
 export async function getUsers() {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/api/admin/users", {
+    const response = await fetch(`${API_URL}/admin/users`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -169,7 +170,7 @@ export async function getAdminBuses() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        "http://localhost:5000/api/admin/buses",
+        `${API_URL}/admin/buses`,
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -188,7 +189,7 @@ export async function createBus(busData) {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        "http://localhost:5000/api/admin/buses",
+        `${API_URL}/admin/buses`,
         {
             method: "POST",
             headers: {

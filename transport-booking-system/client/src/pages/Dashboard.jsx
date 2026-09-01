@@ -22,7 +22,7 @@ function Dashboard() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:5000/api/bookings/dashboard",
+          `${import.meta.env.VITE_API_URL}/bookings/dashboard`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

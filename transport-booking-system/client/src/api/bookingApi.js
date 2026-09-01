@@ -1,11 +1,10 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function createBooking(bookingData) {
 
     const token = localStorage.getItem("token");
 
     console.log("Token:", token);
-
 
     const response = await fetch(`${API_URL}/bookings`, {
         method: "POST",
@@ -18,7 +17,6 @@ export async function createBooking(bookingData) {
         body: JSON.stringify(bookingData),
     });
 
-
     const data = await response.json();
 
     if (!response.ok) {
@@ -29,10 +27,11 @@ export async function createBooking(bookingData) {
 }
 
 export async function initializePayment(paymentData) {
+
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        "http://localhost:5000/api/payment/initialize",
+        `${API_URL}/payment/initialize`,
         {
             method: "POST",
             headers: {
@@ -51,4 +50,3 @@ export async function initializePayment(paymentData) {
 
     return data;
 }
-

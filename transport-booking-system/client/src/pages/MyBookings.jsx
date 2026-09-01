@@ -14,7 +14,7 @@ function MyBookings() {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:5000/api/bookings/mine",
+                    `${import.meta.env.VITE_API_URL}/bookings/mine`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -100,10 +100,12 @@ function MyBookings() {
                                         {booking.origin} <FaArrowRight />{" "}
                                         {booking.destination}
                                     </h2>
+
                                     <p>
                                         {formatDate(booking.departure_date)} at{" "}
                                         {booking.departure_time}
                                     </p>
+
                                     <p>
                                         Seat {booking.seat_number} | Bus{" "}
                                         {booking.bus_number} | Ref{" "}
@@ -115,6 +117,7 @@ function MyBookings() {
                                     <strong>
                                         NGN {Number(booking.fare).toLocaleString()}
                                     </strong>
+
                                     <span
                                         className={`status-badge ${booking.booking_status.toLowerCase()}`}
                                     >

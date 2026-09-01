@@ -26,65 +26,58 @@ function RegisterForm() {
     };
 
     const handleSubmit = async (e) => {
-  e.preventDefault();
+        e.preventDefault();
 
+        if (formData.password !== formData.confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
 
-  if (formData.password !== formData.confirmPassword) {
-    alert("Passwords do not match.");
-    return;
-  }
+        if (!formData.agree) {
+            alert("Please accept the Terms & Conditions.");
+            return;
+        }
 
+        try {
 
-  if (!formData.agree) {
-    alert("Please accept the Terms & Conditions.");
-    return;
-  }
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/auth/register`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
 
+                    body: JSON.stringify({
+                        full_name: formData.fullName,
+                        email: formData.email,
+                        phone: formData.phone,
+                        password: formData.password,
+                    }),
+                }
+            );
 
-  try {
+            const data = await response.json();
 
-    const response = await fetch(
-      "http://localhost:5000/api/auth/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+            if (response.ok) {
 
-        body: JSON.stringify({
-          full_name: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-        }),
-      }
-    );
+                alert("Registration successful. Please login.");
 
+                navigate("/login");
 
-    const data = await response.json();
+            } else {
 
+                alert(data.message);
 
-    if (response.ok) {
+            }
 
-      alert("Registration successful. Please login.");
+        } catch (error) {
 
-      navigate("/login");
+            console.error(error);
+            alert("Unable to register. Try again.");
 
-    } else {
-
-      alert(data.message);
-
-    }
-
-
-  } catch (error) {
-
-    console.error(error);
-    alert("Unable to register. Try again.");
-
-  }
-
-};
+        }
+    };
 
     return (
         <section className="auth-section">

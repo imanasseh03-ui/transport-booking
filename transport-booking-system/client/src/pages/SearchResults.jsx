@@ -30,7 +30,7 @@ function SearchResults() {
                 });
 
                 const response = await fetch(
-                    `http://localhost:5000/api/trips?${params.toString()}`
+                    `${import.meta.env.VITE_API_URL}/trips?${params.toString()}`
                 );
 
                 const data = await response.json();
