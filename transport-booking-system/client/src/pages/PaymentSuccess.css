@@ -1,0 +1,726 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+.payment-page {
+    min-height: 100vh;
+    background: #f5f7fb;
+    padding: 50px 20px;
+    font-family: "Inter", sans-serif;
+    color: #1f2937;
+}
+
+.payment-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   SUCCESS HEADER
+========================================= */
+
+.payment-success-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.success-check {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8f7ef;
+    color: #16a34a;
+
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.payment-success-header h1 {
+    margin: 0;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.payment-success-header p {
+    margin: 8px 0 16px;
+
+    color: #6b7280;
+    font-size: 15px;
+}
+
+.payment-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 7px 14px;
+
+    border-radius: 30px;
+
+    background: #e8f7ef;
+    color: #15803d;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   RECEIPT
+========================================= */
+
+.payment-receipt {
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(15, 23, 42, 0.08);
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   RECEIPT HEADER
+========================================= */
+
+.receipt-header {
+    padding: 30px 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #eef0f4;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-logo {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: var(--primary-color, #1769aa);
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.brand h2 {
+    margin: 0;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 19px;
+
+    color: #111827;
+}
+
+.brand p {
+    margin: 2px 0 0;
+
+    font-size: 11px;
+    color: #8a94a6;
+}
+
+.receipt-label {
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    color: #8a94a6;
+}
+
+
+/* =========================================
+   AMOUNT
+========================================= */
+
+.amount-section {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    background: #fafcff;
+
+    border-bottom: 1px solid #eef0f4;
+}
+
+.amount-section span {
+    font-size: 13px;
+    color: #7b8494;
+}
+
+.amount-section h2 {
+    margin: 7px 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 36px;
+    font-weight: 700;
+
+    color: var(--primary-color, #1769aa);
+}
+
+.amount-section p {
+    margin: 0;
+
+    font-size: 12px;
+    color: #8a94a6;
+}
+
+
+/* =========================================
+   SECTIONS
+========================================= */
+
+.receipt-section {
+    padding: 30px 35px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 22px;
+}
+
+.section-heading h3 {
+    margin: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    color: #1f2937;
+}
+
+.section-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #eef5fb;
+
+    color: var(--primary-color, #1769aa);
+
+    font-size: 15px;
+}
+
+
+/* =========================================
+   DETAILS GRID
+========================================= */
+
+.details-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 22px 35px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-item span {
+    font-size: 12px;
+    color: #8a94a6;
+}
+
+.detail-item strong {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #263244;
+
+    word-break: break-word;
+}
+
+.reference {
+    font-family: monospace;
+    font-size: 13px !important;
+}
+
+.paid-text,
+.confirmed-text {
+    color: #16a34a !important;
+}
+
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.receipt-divider {
+    height: 1px;
+
+    margin: 0 35px;
+
+    background: #eef0f4;
+}
+
+
+/* =========================================
+   ROUTE
+========================================= */
+
+.route-display {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 30px;
+
+    padding: 22px;
+
+    border-radius: 13px;
+
+    background: #f8fafc;
+}
+
+.route-location {
+    width: 32%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.route-location span {
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: #9aa3b2;
+}
+
+.route-location strong {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 17px;
+
+    color: #172033;
+}
+
+.route-location.destination {
+    text-align: right;
+}
+
+.route-line {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    color: var(--primary-color, #1769aa);
+}
+
+.route-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--primary-color, #1769aa);
+}
+
+.route-arrow {
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.seat-number {
+    color: var(--primary-color, #1769aa) !important;
+}
+
+
+/* =========================================
+   BOOKING REFERENCE
+========================================= */
+
+.booking-reference {
+    margin: 0 35px;
+
+    padding: 22px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    border: 1px dashed #d8dee8;
+}
+
+.booking-reference span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.3px;
+
+    color: #8a94a6;
+}
+
+.booking-reference strong {
+    font-family: monospace;
+
+    font-size: 20px;
+
+    letter-spacing: 1px;
+
+    color: var(--primary-color, #1769aa);
+}
+
+
+/* =========================================
+   RECEIPT FOOTER
+========================================= */
+
+.receipt-footer {
+    margin-top: 30px;
+
+    padding: 22px 35px;
+
+    text-align: center;
+
+    background: #fafbfc;
+
+    border-top: 1px solid #eef0f4;
+}
+
+.receipt-footer p {
+    margin: 0 0 5px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+.receipt-footer span {
+    font-size: 11px;
+
+    color: #9aa3b2;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.payment-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+.payment-primary-btn,
+.payment-secondary-btn {
+    min-height: 46px;
+
+    padding: 0 22px;
+
+    border-radius: 9px;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.payment-primary-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+
+    background: var(--primary-color, #1769aa);
+
+    color: #ffffff;
+
+    border: none;
+}
+
+.payment-primary-btn:hover {
+    opacity: 0.9;
+
+    transform: translateY(-1px);
+}
+
+.payment-secondary-btn {
+    background: #ffffff;
+
+    color: #344054;
+
+    border: 1px solid #d9dee7;
+}
+
+.payment-secondary-btn:hover {
+    background: #f8fafc;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.payment-loading {
+    min-height: 70vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.payment-spinner {
+    width: 45px;
+    height: 45px;
+
+    margin-bottom: 20px;
+
+    border: 4px solid #e5e7eb;
+    border-top-color: var(--primary-color, #1769aa);
+
+    border-radius: 50%;
+
+    animation: paymentSpin 0.8s linear infinite;
+}
+
+.payment-loading h2 {
+    margin: 0 0 7px;
+
+    font-family: "Poppins", sans-serif;
+}
+
+.payment-loading p {
+    margin: 0;
+
+    color: #7b8494;
+
+    font-size: 14px;
+}
+
+@keyframes paymentSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.payment-error-card {
+    max-width: 520px;
+
+    margin: 100px auto;
+
+    padding: 45px 35px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+}
+
+.payment-error-icon {
+    width: 60px;
+    height: 60px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.payment-error-card h1 {
+    margin: 0 0 10px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 24px;
+}
+
+.payment-error-card p {
+    margin: 0 0 25px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .payment-page {
+        padding: 25px 12px;
+    }
+
+    .payment-success-header h1 {
+        font-size: 25px;
+    }
+
+    .receipt-header {
+        padding: 22px;
+    }
+
+    .receipt-label {
+        display: none;
+    }
+
+    .receipt-section {
+        padding: 25px 22px;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+
+        gap: 17px;
+    }
+
+    .receipt-divider {
+        margin: 0 22px;
+    }
+
+    .route-display {
+        padding: 18px 12px;
+    }
+
+    .route-location strong {
+        font-size: 14px;
+    }
+
+    .route-location {
+        width: 36%;
+    }
+
+    .booking-reference {
+        margin: 0 22px;
+    }
+
+    .payment-actions {
+        flex-direction: column;
+    }
+
+    .payment-primary-btn,
+    .payment-secondary-btn {
+        width: 100%;
+    }
+
+    .amount-section h2 {
+        font-size: 30px;
+    }
+}
+
+
+/* =========================================
+   PRINT
+========================================= */
+
+@media print {
+
+    .payment-page {
+        padding: 0;
+
+        background: #ffffff;
+    }
+
+    .payment-success-header {
+        margin-top: 20px;
+    }
+
+    .payment-actions {
+        display: none;
+    }
+
+    .payment-receipt {
+        box-shadow: none;
+
+        border: 1px solid #e5e7eb;
+    }
+
+}

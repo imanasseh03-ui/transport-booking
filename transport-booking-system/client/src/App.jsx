@@ -26,6 +26,7 @@ import AdminRoute from "./components/AdminRoute/AdminRoute";
 import AdminTrips from "./pages/Admin/AdminTrips";
 import AdminUsers from "./pages/Admin/AdminUsers";
 import AdminBuses from "./pages/Admin/AdminBuses";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 
 function App() {
@@ -146,7 +147,7 @@ function App() {
         <Route path="/admin/trips" element={<AdminTrips />} />
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/buses" element={<AdminBuses />} />
-
+        <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
     </BrowserRouter>
   );
