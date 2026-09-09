@@ -234,22 +234,50 @@ function AdminBookings() {
                                             `Seat #${booking.seat_id}`}
                                     </td>
 
+
                                     <td>
-                                        <div className={`status-cell status-${booking.status.toLowerCase()}`}>
-                                            <select
-                                                value={booking.status}
-                                                onClick={(e) => e.stopPropagation()}
-                                                onChange={(e) =>
-                                                    handleStatusChange(booking.id, e.target.value)
-                                                }
-                                            >
-                                                <option value="Pending">Pending</option>
-                                                <option value="Confirmed">Confirmed</option>
-                                                <option value="Completed">Completed</option>
-                                                <option value="Cancelled">Cancelled</option>
-                                            </select>
+                                        <div
+                                            className={`status-cell status-${booking.status.toLowerCase()}`}
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {booking.status === "Completed" ? (
+                                                <span className="status-badge">
+                                                    Completed
+                                                </span>
+                                            ) : booking.status === "Cancelled" ? (
+                                                <span className="status-badge">
+                                                    Cancelled
+                                                </span>
+                                            ) : (
+                                                <select
+                                                    value={booking.status}
+                                                    onChange={(e) =>
+                                                        handleStatusChange(
+                                                            booking.id,
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option value="Pending">
+                                                        Pending
+                                                    </option>
+
+                                                    <option value="Confirmed">
+                                                        Confirmed
+                                                    </option>
+
+                                                    <option value="Completed">
+                                                        Completed
+                                                    </option>
+
+                                                    <option value="Cancelled">
+                                                        Cancelled
+                                                    </option>
+                                                </select>
+                                            )}
                                         </div>
                                     </td>
+
 
                                 </tr>
 
@@ -289,7 +317,7 @@ function AdminBookings() {
                                 <div className="detail-group">
                                     <h4>Trip</h4>
                                     <p><strong>Route:</strong> {selectedBooking.origin} → {selectedBooking.destination}</p>
-                                    
+
                                     <p><strong>Date:</strong> {selectedBooking.departure_date}</p>
                                     <p><strong>Time:</strong> {selectedBooking.departure_time}</p>
                                     <p><strong>Seat:</strong> {selectedBooking.seat_number}</p>

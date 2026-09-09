@@ -1,5 +1,6 @@
 import pool from "../config/db.js";
 
+
 export const getDashboardStats = async (req, res) => {
     try {
 
@@ -16,10 +17,10 @@ export const getDashboardStats = async (req, res) => {
             await pool.query("SELECT COUNT(*) FROM buses");
 
         const revenueQuery = await pool.query(`
-            SELECT COALESCE(SUM(fare), 0) AS revenue
-            FROM bookings
-            JOIN trips ON bookings.trip_id = trips.id
-            WHERE bookings.booking_status = 'Confirmed'
+            SELECT COALESCE(SUM(t.fare), 0) AS revenue
+            FROM bookings b
+            JOIN trips t ON b.trip_id = t.id
+            WHERE b.booking_status IN ('Confirmed', 'Completed')
         `);
 
         res.status(200).json({
@@ -31,14 +32,17 @@ export const getDashboardStats = async (req, res) => {
         });
 
     } catch (error) {
-    console.error("Dashboard Error:", error);
+        console.error("Dashboard Error:", error);
 
-    res.status(500).json({
-        message: "Failed to load dashboard statistics",
-        error: error.message,
-    });
-}
+        res.status(500).json({
+            message: "Failed to load dashboard statistics",
+            error: error.message,
+        });
+    }
 };
+
+
+
 
 export const getAllTrips = async (req, res) => {
     try {
@@ -256,14 +260,62 @@ export const getAllBookings = async (req, res) => {
 
 export const updateBookingStatus = async (req, res) => {
     try {
+
         const { id } = req.params;
         const { status } = req.body;
 
+        const allowedStatuses = [
+            "Pending",
+            "Confirmed",
+            "Completed",
+            "Cancelled"
+        ];
+
+        // Make sure the status is valid
+        if (!allowedStatuses.includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid booking status"
+            });
+        }
+
+        // Get current booking
+        const currentBooking = await pool.query(
+            `
+            SELECT booking_status
+            FROM bookings
+            WHERE id = $1
+            `,
+            [id]
+        );
+
+        if (currentBooking.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Booking not found"
+            });
+        }
+
+        const currentStatus =
+            currentBooking.rows[0].booking_status;
+
+
+        // Completed bookings are final
+        if (currentStatus === "Completed") {
+            return res.status(400).json({
+                success: false,
+                message: "Completed bookings cannot be changed"
+            });
+        }
+
+
         const result = await pool.query(
-            `UPDATE bookings
-             SET booking_status = $1
-             WHERE id = $2
-             RETURNING *`,
+            `
+            UPDATE bookings
+            SET booking_status = $1
+            WHERE id = $2
+            RETURNING *
+            `,
             [status, id]
         );
 
@@ -274,13 +326,16 @@ export const updateBookingStatus = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
+
+        console.error("Update booking status error:", error);
+
         res.status(500).json({
             success: false,
             message: "Failed to update booking status"
         });
     }
 };
+
 
 export const getAllUsers = async (req, res) => {
     try{
