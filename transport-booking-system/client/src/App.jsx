@@ -27,6 +27,7 @@ import AdminTrips from "./pages/Admin/AdminTrips";
 import AdminUsers from "./pages/Admin/AdminUsers";
 import AdminBuses from "./pages/Admin/AdminBuses";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import VerifyEmail from "./pages/VerifyEmail";
 
 
 function App() {
@@ -148,6 +149,11 @@ function App() {
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/buses" element={<AdminBuses />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
+
+        <Route
+    path="/verify-email"
+    element={<VerifyEmail />}
+/>
       </Routes>
     </BrowserRouter>
   );

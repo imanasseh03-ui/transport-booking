@@ -1,0 +1,136 @@
+.verify-email-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: #f5f8fc;
+}
+
+
+.verify-email-card {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+.verify-email-card h2 {
+    margin: 0 0 15px;
+    text-align: center;
+    font-size: 28px;
+}
+
+
+.verify-email-text {
+    text-align: center;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+
+.verify-email-card .form-group {
+    margin-bottom: 20px;
+}
+
+
+.verify-email-card label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+
+.verify-email-card input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #d9dfe7;
+    border-radius: 7px;
+    font-size: 15px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+
+.verify-email-card input:focus {
+    border-color: var(--primary);
+}
+
+
+.verify-email-card input[name="otp"] {
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: 8px;
+    font-weight: 600;
+}
+
+
+.verify-email-card button[type="submit"] {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 7px;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.verify-email-card button[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+
+.verify-email-card button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+.verify-error {
+    margin: 10px 0;
+    color: #d93025;
+    font-size: 14px;
+    text-align: center;
+}
+
+
+.verify-success {
+    margin: 10px 0;
+    color: #188038;
+    font-size: 14px;
+    text-align: center;
+}
+
+
+.verify-login {
+    margin-top: 25px;
+    text-align: center;
+    color: #666;
+}
+
+
+.verify-login span {
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+@media (max-width: 500px) {
+
+    .verify-email-card {
+        padding: 30px 20px;
+    }
+
+    .verify-email-card h2 {
+        font-size: 24px;
+    }
+}

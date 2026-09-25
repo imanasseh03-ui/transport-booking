@@ -1,10 +1,9 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { createBooking, initializePayment } from "../api/bookingApi";
 import { useAuth } from "../context/useAuth";
 
 function BookingSummary() {
     const location = useLocation();
-    const navigate = useNavigate();
     const { user } = useAuth();
 
     const bookingData = location.state;

@@ -5,6 +5,7 @@ import "./Auth.css";
 function RegisterForm() {
 
     const navigate = useNavigate();
+
     const [showPassword, setShowPassword] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -16,27 +17,49 @@ function RegisterForm() {
         agree: false,
     });
 
+
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+
+        const {
+            name,
+            value,
+            type,
+            checked
+        } = e.target;
 
         setFormData((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]:
+                type === "checkbox"
+                    ? checked
+                    : value,
         }));
     };
 
+
     const handleSubmit = async (e) => {
+
         e.preventDefault();
 
-        if (formData.password !== formData.confirmPassword) {
+
+        // Check passwords
+        if (
+            formData.password !==
+            formData.confirmPassword
+        ) {
             alert("Passwords do not match.");
             return;
         }
 
+
+        // Check terms
         if (!formData.agree) {
-            alert("Please accept the Terms & Conditions.");
+            alert(
+                "Please accept the Terms & Conditions."
+            );
             return;
         }
+
 
         try {
 
@@ -44,140 +67,270 @@ function RegisterForm() {
                 `${import.meta.env.VITE_API_URL}/auth/register`,
                 {
                     method: "POST",
+
                     headers: {
                         "Content-Type": "application/json",
                     },
 
                     body: JSON.stringify({
-                        full_name: formData.fullName,
-                        email: formData.email,
-                        phone: formData.phone,
-                        password: formData.password,
+                        full_name:
+                            formData.fullName,
+
+                        email:
+                            formData.email,
+
+                        phone:
+                            formData.phone,
+
+                        password:
+                            formData.password,
                     }),
                 }
             );
 
-            const data = await response.json();
+
+            const data =
+                await response.json();
+
 
             if (response.ok) {
 
-                alert("Registration successful. Please login.");
+                /*
+                 * Registration succeeded.
+                 *
+                 * The backend has now:
+                 * 1. Created the account
+                 * 2. Generated the OTP
+                 * 3. Saved the OTP
+                 * 4. Sent the OTP to the user's email
+                 *
+                 * Send the user to the verification page.
+                 */
 
-                navigate("/login");
+                navigate("/verify-email", {
+                    state: {
+                        email: formData.email,
+                    },
+                });
 
             } else {
 
-                alert(data.message);
+                alert(
+                    data.message ||
+                    "Registration failed."
+                );
 
             }
 
         } catch (error) {
 
-            console.error(error);
-            alert("Unable to register. Try again.");
+            console.error(
+                "Registration error:",
+                error
+            );
 
+            alert(
+                "Unable to register. Try again."
+            );
         }
     };
 
+
     return (
         <section className="auth-section">
+
             <div className="auth-container">
 
+
                 <div className="auth-info">
-                    <h1>Create Your Account</h1>
+
+                    <h1>
+                        Create Your Account
+                    </h1>
+
                     <p>
-                        Join BlueWhales and enjoy safe, reliable travel
+                        Join BlueWhales and enjoy
+                        safe, reliable travel
                         between Abuja and Jos.
                     </p>
+
                 </div>
 
-                <div className="auth-card">
-                    <h2>Register</h2>
 
-                    <form onSubmit={handleSubmit}>
+                <div className="auth-card">
+
+                    <h2>
+                        Register
+                    </h2>
+
+
+                    <form
+                        onSubmit={handleSubmit}
+                    >
+
 
                         <div className="input-group">
-                            <label>Full Name</label>
+
+                            <label>
+                                Full Name
+                            </label>
+
                             <input
                                 type="text"
                                 name="fullName"
                                 placeholder="Enter your full name"
-                                value={formData.fullName}
-                                onChange={handleChange}
+                                value={
+                                    formData.fullName
+                                }
+                                onChange={
+                                    handleChange
+                                }
                                 required
                             />
+
                         </div>
 
+
                         <div className="input-group">
-                            <label>Email</label>
+
+                            <label>
+                                Email
+                            </label>
+
                             <input
                                 type="email"
                                 name="email"
                                 placeholder="Enter your email"
-                                value={formData.email}
-                                onChange={handleChange}
+                                value={
+                                    formData.email
+                                }
+                                onChange={
+                                    handleChange
+                                }
                                 required
                             />
+
                         </div>
 
+
                         <div className="input-group">
-                            <label>Phone Number</label>
+
+                            <label>
+                                Phone Number
+                            </label>
+
                             <input
                                 type="tel"
                                 name="phone"
                                 placeholder="08012345678"
-                                value={formData.phone}
-                                onChange={handleChange}
+                                value={
+                                    formData.phone
+                                }
+                                onChange={
+                                    handleChange
+                                }
                                 required
                             />
+
                         </div>
 
+
                         <div className="input-group">
-                            <label>Password</label>
+
+                            <label>
+                                Password
+                            </label>
+
 
                             <div className="password-box">
+
                                 <input
-                                    type={showPassword ? "text" : "password"}
+                                    type={
+                                        showPassword
+                                            ? "text"
+                                            : "password"
+                                    }
                                     name="password"
                                     placeholder="Create password"
-                                    value={formData.password}
-                                    onChange={handleChange}
+                                    value={
+                                        formData.password
+                                    }
+                                    onChange={
+                                        handleChange
+                                    }
                                     required
                                 />
 
+
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
+                                    onClick={() =>
+                                        setShowPassword(
+                                            !showPassword
+                                        )
+                                    }
                                 >
-                                    {showPassword ? "Hide" : "Show"}
+                                    {
+                                        showPassword
+                                            ? "Hide"
+                                            : "Show"
+                                    }
                                 </button>
+
                             </div>
+
                         </div>
+
 
                         <div className="input-group">
-                            <label>Confirm Password</label>
+
+                            <label>
+                                Confirm Password
+                            </label>
 
                             <input
-                                type={showPassword ? "text" : "password"}
+                                type={
+                                    showPassword
+                                        ? "text"
+                                        : "password"
+                                }
                                 name="confirmPassword"
                                 placeholder="Confirm password"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
+                                value={
+                                    formData.confirmPassword
+                                }
+                                onChange={
+                                    handleChange
+                                }
                                 required
                             />
+
                         </div>
 
+
                         <div className="auth-options">
+
                             <label>
+
                                 <input
                                     type="checkbox"
                                     name="agree"
-                                    checked={formData.agree}
-                                    onChange={handleChange}
+                                    checked={
+                                        formData.agree
+                                    }
+                                    onChange={
+                                        handleChange
+                                    }
                                 />
-                                {" "}I agree to the Terms & Conditions
+
+                                {" "}
+                                I agree to the Terms &
+                                Conditions
+
                             </label>
+
                         </div>
+
 
                         <button
                             className="auth-button"
@@ -186,19 +339,29 @@ function RegisterForm() {
                             Create Account
                         </button>
 
+
                         <p className="auth-footer">
-                            Already have an account?{" "}
+
+                            Already have an account?
+
+                            {" "}
+
                             <Link to="/login">
                                 Login
                             </Link>
+
                         </p>
 
+
                     </form>
+
                 </div>
 
             </div>
+
         </section>
     );
 }
+
 
 export default RegisterForm;

@@ -8,20 +8,28 @@ function AdminUsers() {
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        loadUsers();
-    }, []);
+        let ignore = false;
 
-    async function loadUsers() {
-        try {
-            const data = await getUsers();
-            setUsers(data.users || []);
-        } catch (error) {
-            console.error(error);
-            alert("Failed to load users.");
-        } finally {
-            setLoading(false);
-        }
-    }
+        getUsers()
+            .then((data) => {
+                if (!ignore) {
+                    setUsers(data.users || []);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Failed to load users.");
+            })
+            .finally(() => {
+                if (!ignore) {
+                    setLoading(false);
+                }
+            });
+
+        return () => {
+            ignore = true;
+        };
+    }, []);
 
     const filteredUsers = users.filter((user) => {
         const value = search.toLowerCase();
