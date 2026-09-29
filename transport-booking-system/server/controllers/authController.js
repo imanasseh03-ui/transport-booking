@@ -337,6 +337,94 @@ export const verifyEmail = async (req, res) => {
     }
 };
 
+export const resendVerificationOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                message: "Email is required.",
+            });
+        }
+
+        const userResult = await pool.query(
+            `SELECT id, full_name, email, email_verified
+             FROM users
+             WHERE email = $1`,
+            [email]
+        );
+
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({
+                message: "No account found with this email.",
+            });
+        }
+
+        const user = userResult.rows[0];
+
+        if (user.email_verified) {
+            return res.status(400).json({
+                message: "This email is already verified.",
+            });
+        }
+
+        // Generate a new OTP
+        const otp = generateOTP();
+
+        // OTP expires in 10 minutes
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+        // Store the new OTP
+        await pool.query(
+            `INSERT INTO email_verifications
+             (user_id, otp_code, expires_at, verified)
+             VALUES ($1, $2, $3, false)`,
+            [user.id, otp, expiresAt]
+        );
+
+        // Send OTP email
+        await sendEmail(
+            user.email,
+            "BlueWhales Email Verification",
+            `
+                <div style="font-family: Arial, sans-serif;">
+                    <h2>Verify Your BlueWhales Account</h2>
+
+                    <p>Hello ${user.full_name},</p>
+
+                    <p>
+                        Your new BlueWhales verification code is:
+                    </p>
+
+                    <h1 style="letter-spacing: 6px;">
+                        ${otp}
+                    </h1>
+
+                    <p>
+                        This code will expire in 10 minutes.
+                    </p>
+
+                    <p>
+                        If you did not request this code,
+                        you can safely ignore this email.
+                    </p>
+                </div>
+            `
+        );
+
+        return res.status(200).json({
+            message: "A new verification code has been sent to your email.",
+        });
+
+    } catch (error) {
+        console.error("Resend verification OTP error:", error);
+
+        return res.status(500).json({
+            message: "Unable to send verification code.",
+        });
+    }
+};
+
 
 // ===============================
 // LOGIN USER

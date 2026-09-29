@@ -2,8 +2,9 @@ import express from "express";
 
 import {
     registerUser,
-    loginUser,
-    verifyEmail
+    verifyEmail,
+    resendVerificationOTP,
+    loginUser
 } from "../controllers/authController.js";
 
 const router = express.Router();
@@ -11,6 +12,8 @@ const router = express.Router();
 router.post("/register", registerUser);
 
 router.post("/verify-email", verifyEmail);
+
+router.post("/resend-verification", resendVerificationOTP); 
 
 router.post("/login", loginUser);
 

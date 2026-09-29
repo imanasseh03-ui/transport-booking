@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./VerifyEmail.css";
@@ -12,11 +13,76 @@ function VerifyEmail() {
     );
 
     const [otp, setOtp] = useState("");
+
     const [loading, setLoading] = useState(false);
+    const [resending, setResending] = useState(false);
+
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
 
+    // Send verification code
+    const handleResendOTP = async () => {
+
+        setMessage("");
+        setError("");
+
+        if (!email) {
+            setError("Please enter your email address.");
+            return;
+        }
+
+        try {
+
+            setResending(true);
+
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/auth/resend-verification`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email,
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(
+                    data.message ||
+                    "Unable to send verification code."
+                );
+                return;
+            }
+
+            setMessage(
+                "A new verification code has been sent to your email."
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Resend verification error:",
+                error
+            );
+
+            setError(
+                "Unable to connect to the server."
+            );
+
+        } finally {
+
+            setResending(false);
+
+        }
+    };
+
+
+    // Verify email
     const handleVerify = async (e) => {
 
         e.preventDefault();
@@ -24,33 +90,31 @@ function VerifyEmail() {
         setMessage("");
         setError("");
 
-
         if (!email || !otp) {
-            setError("Email and verification code are required.");
+            setError(
+                "Email and verification code are required."
+            );
             return;
         }
-
 
         if (otp.length !== 6) {
-            setError("Please enter the 6-digit verification code.");
+            setError(
+                "Please enter the 6-digit verification code."
+            );
             return;
         }
-
 
         try {
 
             setLoading(true);
 
-
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/auth/verify-email`,
                 {
                     method: "POST",
-
                     headers: {
                         "Content-Type": "application/json",
                     },
-
                     body: JSON.stringify({
                         email,
                         otp,
@@ -58,9 +122,7 @@ function VerifyEmail() {
                 }
             );
 
-
             const data = await response.json();
-
 
             if (!response.ok) {
                 setError(
@@ -70,16 +132,13 @@ function VerifyEmail() {
                 return;
             }
 
-
             setMessage(
                 "Email verified successfully! Redirecting to login..."
             );
 
-
             setTimeout(() => {
                 navigate("/login");
             }, 1500);
-
 
         } catch (error) {
 
@@ -101,41 +160,60 @@ function VerifyEmail() {
 
 
     return (
+
         <div className="verify-email-page">
 
             <div className="verify-email-card">
 
-                <h2>
-                    Verify Your Email
-                </h2>
-
+                <h2>Verify Your Email</h2>
 
                 <p className="verify-email-text">
-                    We've sent a 6-digit verification code
-                    to your email address.
+                    Enter your email address and request a
+                    verification code. The code will be sent
+                    to your email.
                 </p>
+
+
+                {/* Email */}
+
+                <div className="form-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) =>
+                            setEmail(e.target.value)
+                        }
+                        placeholder="Enter your email"
+                        required
+                    />
+
+                </div>
+
+
+                {/* Send OTP */}
+
+                <button
+                    type="button"
+                    className="resend-button"
+                    onClick={handleResendOTP}
+                    disabled={resending}
+                >
+
+                    {resending
+                        ? "Sending..."
+                        : "Send Verification Code"}
+
+                </button>
 
 
                 <form onSubmit={handleVerify}>
 
-                    <div className="form-group">
-
-                        <label>
-                            Email Address
-                        </label>
-
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) =>
-                                setEmail(e.target.value)
-                            }
-                            placeholder="Enter your email"
-                            required
-                        />
-
-                    </div>
-
+                    {/* OTP */}
 
                     <div className="form-group">
 
@@ -180,9 +258,11 @@ function VerifyEmail() {
                         type="submit"
                         disabled={loading}
                     >
+
                         {loading
                             ? "Verifying..."
                             : "Verify Email"}
+
                     </button>
 
                 </form>
@@ -190,9 +270,7 @@ function VerifyEmail() {
 
                 <p className="verify-login">
 
-                    Already verified?
-
-                    {" "}
+                    Already verified?{" "}
 
                     <span
                         onClick={() =>
