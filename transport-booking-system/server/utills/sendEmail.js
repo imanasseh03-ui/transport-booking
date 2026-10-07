@@ -11,15 +11,18 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = async (to, subject, html) => {
     try {
         const mailOptions = {
-            from: `"Bluewhales Transport" <${process.env.EMAIL_USER}>`,
+            from: `"BlueWhales Transport" <${process.env.EMAIL_USER}>`,
             to,
             subject,
             html,
+            text: "Your BlueWhales email verification code is included in this email. It expires in 10 minutes.",
         };
 
         const info = await transporter.sendMail(mailOptions);
 
         console.log("Email sent:", info.messageId);
+        console.log("Accepted:", info.accepted);
+        console.log("Rejected:", info.rejected);
 
         return info;
 

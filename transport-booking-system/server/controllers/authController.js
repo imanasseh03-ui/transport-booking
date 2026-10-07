@@ -21,9 +21,28 @@ export const registerUser = async (req, res) => {
 
         // Check if email already exists
         const existingUser = await pool.query(
-            "SELECT * FROM users WHERE email = $1",
-            [email]
+            `SELECT id, email, phone
+     FROM users
+     WHERE email = $1 OR phone = $2`,
+            [email, phone]
         );
+
+        if (existingUser.rows.length > 0) {
+
+            const existing = existingUser.rows[0];
+
+            if (existing.email === email) {
+                return res.status(400).json({
+                    message: "Email already exists",
+                });
+            }
+
+            if (existing.phone === phone) {
+                return res.status(400).json({
+                    message: "Phone number already exists",
+                });
+            }
+        }
 
         if (existingUser.rows.length > 0) {
             return res.status(400).json({
@@ -100,57 +119,133 @@ export const registerUser = async (req, res) => {
         // ===============================
 
         const emailContent = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify your BlueWhales account</title>
+</head>
+
+<body style="
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fb;
+    font-family: Arial, Helvetica, sans-serif;
+">
+
+    <div style="
+        max-width: 600px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #e5e7eb;
+    ">
+
+        <div style="
+            padding: 24px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        ">
+
+            <h2 style="
+                margin: 0;
+                color: #1769aa;
+            ">
+                BlueWhales Transport
+            </h2>
+
+        </div>
+
+        <div style="padding: 30px;">
+
+            <p style="font-size: 16px;">
+                Hello ${user.full_name},
+            </p>
+
+            <p style="
+                font-size: 15px;
+                line-height: 1.6;
+                color: #374151;
+            ">
+                Thank you for creating your BlueWhales account.
+                Please enter the verification code below to confirm
+                your email address.
+            </p>
+
             <div style="
-                font-family: Arial, sans-serif;
-                max-width: 600px;
-                margin: auto;
-                padding: 30px;
-                border: 1px solid #e5e7eb;
-                border-radius: 10px;
+                margin: 30px 0;
+                padding: 20px;
+                text-align: center;
+                background: #f4f7fb;
+                border-radius: 8px;
             ">
 
-                <h2 style="color: #1769aa;">
-                    Welcome to Bluewhales
-                </h2>
-
-                <p>
-                    Hello ${user.full_name},
-                </p>
-
-                <p>
-                    Thank you for creating your Bluewhales account.
-                    Please use the verification code below to verify
-                    your email address.
+                <p style="
+                    margin: 0 0 10px;
+                    font-size: 13px;
+                    color: #6b7280;
+                ">
+                    Your verification code
                 </p>
 
                 <div style="
                     font-size: 32px;
                     font-weight: bold;
                     letter-spacing: 8px;
-                    text-align: center;
-                    margin: 30px 0;
                     color: #1769aa;
                 ">
                     ${otp}
                 </div>
 
-                <p>
-                    This code will expire in
-                    <strong>10 minutes</strong>.
-                </p>
-
-                <p>
-                    If you did not create a Bluewhales account,
-                    you can safely ignore this email.
-                </p>
-
-                <p style="margin-top: 30px;">
-                    Regards,<br>
-                    <strong>Bluewhales Transport</strong>
-                </p>
-
             </div>
-        `;
+
+            <p style="
+                font-size: 14px;
+                line-height: 1.6;
+                color: #374151;
+            ">
+                This verification code will expire in
+                <strong>10 minutes</strong>.
+            </p>
+
+            <p style="
+                font-size: 14px;
+                line-height: 1.6;
+                color: #374151;
+            ">
+                If you did not create a BlueWhales account,
+                you can ignore this email.
+            </p>
+
+            <p style="
+                margin-top: 30px;
+                font-size: 14px;
+                line-height: 1.6;
+                color: #374151;
+            ">
+                Regards,<br>
+                <strong>BlueWhales Transport</strong>
+            </p>
+
+        </div>
+
+        <div style="
+            padding: 18px;
+            text-align: center;
+            background: #f9fafb;
+            color: #6b7280;
+            font-size: 12px;
+        ">
+            © ${new Date().getFullYear()} BlueWhales Transport
+        </div>
+
+    </div>
+
+</body>
+</html>
+`;
 
 
         // ===============================
